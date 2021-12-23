@@ -23,6 +23,9 @@ export default function LoginPage() {
       <Link href="admin/dashboard" passHref>
         <div className={styles.newsdetail}>As Admin</div>
       </Link>
+      <Link href="superadmin/dashboard" passHref>
+        <div className={styles.newsdetail}>As SuperAdmin</div>
+      </Link>
     </main>
 
     <footer className={styles.footer}>
