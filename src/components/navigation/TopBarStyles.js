@@ -35,21 +35,11 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "50%",
   },
   pageTitle: {
-    marginLeft: "20px !important",
+    marginLeft: "16px !important",
     color: "#000",
     fontSize: "14px",
     fontWeight: "500",
     textAlign: "left",
-  },
-  arrowBackIcon: {
-    color: "#000",
-    fontSize: theme.typography.h2.fontSize,
-    fontWeight: theme.typography.h1.fontWeight,
-    cursor: "pointer",
-  },
-  arrowBackButton: {
-    marginRight: "12px",
-    padding: "0",
   },
 }));
 
