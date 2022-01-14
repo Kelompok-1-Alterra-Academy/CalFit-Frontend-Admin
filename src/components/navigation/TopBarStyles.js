@@ -12,6 +12,11 @@ const useStyles = makeStyles((theme) => ({
     alignContent: "center",
     padding: "0 30px 0 30px",
   },
+  main: {
+    padding: "0",
+    display: "flex",
+    flexDirection: "row",
+  },
   topBar: {
     width: "90%",
     display: "flex",
