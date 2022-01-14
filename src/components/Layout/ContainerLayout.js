@@ -7,7 +7,7 @@ export const ContainerLayout = ({ children }) => {
     const classes = useStyles();
     return (
         <Box>
-            <Container>
+            <Container className={classes.root}>
                 <Box>
                     {children}
                 </Box>
