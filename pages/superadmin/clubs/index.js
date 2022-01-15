@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import Head from "next/head";
 import MaterialTable from "material-table";
 import { useStyles } from "../../../styles/clubs/Index.style";
@@ -6,6 +7,7 @@ import { TopBar } from "../../../src/components/navigation/TopBar";
 import { MenuBar } from "../../../src/components/navigation/MenuBar";
 import { tableIcons } from "../../../src/components/table/MaterialTable";
 import { getAllGyms } from "../../../src/utils/fetchApi/clubs";
+import { Router } from 'next/router';
 
 const setAddress = (address) => {
   return `${address.address}, ${address.district}, ${address.city}`
@@ -13,6 +15,7 @@ const setAddress = (address) => {
 
 export default function ClubsSuperAdmin() {
   const classes = useStyles();
+  const router = useRouter();
   const [clubs, setClubs] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -72,7 +75,8 @@ export default function ClubsSuperAdmin() {
               icon: tableIcons.Add,
               tooltip: 'Add New Club',
               isFreeAction: true,
-              onClick: (event) => alert("You want to add a new row")
+              // onClick: (event) => alert("You want to add a new row")
+              onClick: (event) => router.push("/superadmin/clubs/add")
             }
           ]}
           options={{

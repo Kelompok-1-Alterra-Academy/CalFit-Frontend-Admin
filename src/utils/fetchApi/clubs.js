@@ -23,3 +23,20 @@ export const getGymById = async (setLoadingState, setData, id) => {
       setLoadingState(false);
     });
 };
+
+export const createGym = async (setAlert, data) => {
+  return baseApi
+    .post(`/gyms`, data)
+    .then((res) => {
+      setAlert({
+        status: true,
+        message: res.data.message,
+      });
+      return res;
+    }).catch((err) => {
+      setAlert({
+        status: true,
+        message: err,
+      });
+    });
+}
