@@ -5,18 +5,20 @@ import { Box, Button, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import useStyles from "./TopBarStyles";
 
-export const TopBar = ({ label }) => {
+export const TopBar = () => {
   const classes = useStyles();
 
   return (
     <Box className={classes.root}>
       <Box className={classes.topBar}>
-        <Image
-          src="/calfit-logo-invert.png"
-          alt="CalFit Logo"
-          width={100}
-          height={23}
-        />
+        <Link href="/superadmin/dashboard">
+          <Image
+            src="/calfit-logo-invert.png"
+            alt="CalFit Logo"
+            width={100}
+            height={23}
+          />
+        </Link>
         <Link href="/superadmin/profile">
           <div className={classes.userInfo}>
             <Image

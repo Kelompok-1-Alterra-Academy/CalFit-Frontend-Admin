@@ -13,6 +13,8 @@ export const useStyles = makeStyles((theme) => ({
         marginLeft: "0",
         width: "20%",
         maxHeight: "400px",
+        position: "sticky",
+        top: "84px",
     },
     menu: {
         display: "flex",

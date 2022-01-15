@@ -11,6 +11,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     alignContent: "center",
     padding: "0 30px 0 30px",
+    zIndex: "100",
+    position: "sticky",
+    top: "0",
+    boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.2)",
   },
   main: {
     padding: "0",
