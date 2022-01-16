@@ -1,7 +1,3 @@
-export const notEmptyValidation = (value) => {
-  return value.trim() !== '';
-};
-
 export const telephoneValidation = (value) => {
   const regex = /^08[0-9]{8,11}$/;
   return regex.test(value);
