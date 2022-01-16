@@ -1,9 +1,8 @@
-import { makeStyles } from "@mui/styles"
+import { makeStyles } from '@mui/styles';
 
 export const useStyles = makeStyles((theme) => ({
-    root: {
-        display: "flex",
-        margin: "auto",
-        padding: "20px",
-    },
+  root: {
+    padding: '0',
+    maxWidth: '100%',
+  },
 }));
