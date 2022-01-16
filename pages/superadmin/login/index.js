@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { VisibilityOff, Visibility, Google } from "@mui/icons-material";
 // import { CustomAlert } from "../alert/Alert";
-import { useStyles } from "../../../styles/Auth.style";
+import { useStyles } from "../../../styles/login/Index.style";
 import auth from "../../../src/utils/fetchApi/auth";
 import { passwordValidation } from "../../../src/utils/validation/validation";
 
@@ -86,26 +86,12 @@ export default function Login() {
     };
 
     return (
-        <div className={classes.root}
-            style={{
-                backgroundColor: "#f6f6f6",
-                display: "flex",
-                alignItems: "center",
-            }}
-        >
+        <div className={classes.root}>
             <Head>
-                <title>Login page</title>
+                <title>Login</title>
             </Head>
 
-            <div className={classes.innerBox}
-                style={{
-                    margin: "auto",
-                    backgroundColor: "#fff",
-                    padding: 20,
-                    width: "40%",
-                    borderRadius: 15,
-                }}
-            >
+            <div className={classes.innerBox}>
                 <Image
                     src="/calfit-logo-invert.png"
                     alt="CalFit Logo"
