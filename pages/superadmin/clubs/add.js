@@ -1,22 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from "next/head";
-import {
-  TextField,
-  Button,
-  Container,
-  TextareaAutosize,
-  InputAdornment,
-  IconButton,
-  Typography,
-  Box,
-  Link as MaterialLink,
-} from "@mui/material";
+import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { useStyles } from "../../../styles/clubs/Add.style";
 import { TopBar } from "../../../src/components/navigation/TopBar";
 import { MenuBar } from "../../../src/components/navigation/MenuBar";
 import { telephoneValidation, postalCodeValidation } from "../../../src/utils/validation/validation";
 import { createGym } from '../../../src/utils/fetchApi/clubs';
+import { cloudinaryUploadApi } from '../../../src/utils/fetchApi/api';
 
 const emptyData = {
   name: "",
@@ -27,7 +18,6 @@ const emptyData = {
   district: "",
   city: "",
   postalCode: "",
-  // picture: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
   picture: "",
 };
 
@@ -89,25 +79,10 @@ export default function AddClub() {
   };
 
   const handleChangePicture = (e) => {
+    if (!e.target.files[0]) {
+      setError({ ...error, picture: { status: true, message: "picture is required" } });
+    }
     setPicture(e.target.files[0]);
-  };
-
-  const handleUploadPicture = async () => {
-    if (!picture) return;
-    const formData = new FormData();
-    formData.append("file", picture);
-    formData.append("upload_preset", "calfit");
-    formData.append("cloud_name", "hydeblazack");
-
-    return await fetch("https://api.cloudinary.com/v1_1/hydeblazack/image/upload", {
-      method: "post",
-      body: formData,
-    }).then((res) => res.json())
-      .then((data) => {
-        // setData({ ...data, picture: data.secure_url });
-        return data.secure_url;
-      })
-      .catch((err) => setError({ ...error, picture: { status: true, message: err } }));
   };
 
   const handleOnSubmit = async (e) => {
@@ -120,15 +95,13 @@ export default function AddClub() {
       });
     } else {
       setLoading(true);
-      const pict = await handleUploadPicture();
+      const pict = await cloudinaryUploadApi(picture);
       const newData = {
         ...data, picture: pict
       };
-      if (newData.picture === "") {
-        setAlert({
-          status: true,
-          message: "please upload a picture",
-        });
+      if (!newData.picture) {
+        setError({ ...error, picture: { status: true, message: "please upload a picture" } });
+        setAlert({ status: true, message: "please upload a picture" });
       } else {
         const res = await createGym(setAlert, newData);
         if (res?.status === 201) {
@@ -153,18 +126,13 @@ export default function AddClub() {
       <main className={classes.main}>
         <MenuBar selected={"Clubs"} />
         <Container className={classes.form}>
-          {/* {loading ? (
-            <div className={classes.loading}>
-              Loading...
-            </div>
-          ) : ( */}
           <Box
             component="form"
             className={classes.loginForm}
             onSubmit={(e) => handleOnSubmit(e)}
             style={{
-              opacity: loading ? 0 : 1,
-              // pointerEvents: loading ? "none" : "all",
+              opacity: loading ? 0.3 : 1,
+              pointerEvents: loading ? "none" : "all",
             }}
           >
             <TextField
@@ -263,10 +231,17 @@ export default function AddClub() {
               type="file"
               name="picture"
               onChange={(e) => handleChangePicture(e)}
+              error={error.picture.status}
+              helperText={error.picture.message}
             ></TextField>
-            <Button type="submit" variant="contained" className={classes.button}>
-              SUBMIT
-            </Button>
+            {loading ? (
+              <Button type="submit" variant="contained" className={classes.button} disabled>
+                SUBMIT
+              </Button>) : (
+              <Button type="submit" variant="contained" className={classes.button}>
+                SUBMIT
+              </Button>
+            )}
           </Box>
         </Container>
       </main>
