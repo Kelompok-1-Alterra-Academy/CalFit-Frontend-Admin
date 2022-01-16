@@ -3,7 +3,7 @@ import { makeStyles } from "@mui/styles";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
-    borderRadius: "0 0 25px 25px",
+    borderRadius: "0 0 20px 20px",
     margin: "0 0 20px 0",
     backgroundColor: "#fff",
     display: "flex",

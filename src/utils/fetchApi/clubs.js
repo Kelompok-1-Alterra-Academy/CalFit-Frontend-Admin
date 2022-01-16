@@ -40,3 +40,40 @@ export const createGym = async (setAlert, data) => {
       });
     });
 }
+
+export const updateGym = async (setAlert, data) => {
+  return baseApi
+    .put(`/gyms/${data.id}`, data)
+    .then((res) => {
+      setAlert({
+        status: true,
+        message: res.data.message,
+      });
+      return res;
+    }).catch((err) => {
+      setAlert({
+        status: true,
+        message: err,
+      });
+    });
+}
+
+export const deleteGym = async (setLoadingState, setAlert, id) => {
+  setLoadingState(true);
+  return baseApi
+    .delete(`/gyms/${id}`)
+    .then((res) => {
+      setAlert({
+        status: true,
+        message: res.data.message,
+      });
+      return res;
+    }).catch((err) => {
+      setAlert({
+        status: true,
+        message: err,
+      });
+    }).finally(() => {
+      setLoadingState(false);
+    });
+}

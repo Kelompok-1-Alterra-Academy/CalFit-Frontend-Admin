@@ -7,7 +7,8 @@ import { TopBar } from "../../../src/components/navigation/TopBar";
 import { MenuBar } from "../../../src/components/navigation/MenuBar";
 import { tableIcons } from "../../../src/components/table/MaterialTable";
 import { getAllGyms } from "../../../src/utils/fetchApi/clubs";
-import { Router } from 'next/router';
+import { deleteGym } from '../../../src/utils/fetchApi/clubs';
+
 
 const setAddress = (address) => {
   return `${address.address}, ${address.district}, ${address.city}`
@@ -17,6 +18,10 @@ export default function ClubsSuperAdmin() {
   const classes = useStyles();
   const router = useRouter();
   const [clubs, setClubs] = useState([]);
+  const [alertClubs, setAlertClubs] = useState({
+    status: false,
+    message: '',
+  });
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -24,11 +29,17 @@ export default function ClubsSuperAdmin() {
   }, []);
 
   useEffect(() => {
-    clubs.map(club => {
-      club.addressString = club.address.address
-    })
+    clubs?.map(club => { club.addressString = club.address.address })
   }, [clubs]);
 
+  const handleDelete = async (id) => {
+    const res = await deleteGym(setLoading, setAlertClubs, id);
+    if (res.status === 202) {
+      setClubs(clubs.filter(club => club.id !== id));
+      return true;
+    }
+    return false;
+  }
 
   return (
     <div className={classes.root}>
@@ -50,6 +61,7 @@ export default function ClubsSuperAdmin() {
           title="Clubs"
           icons={tableIcons}
           columns={[
+            { title: 'Id', field: 'id' },
             { title: 'Name', field: 'name' },
             {
               title: 'Admin', field: 'operationalAdminId',
@@ -68,14 +80,20 @@ export default function ClubsSuperAdmin() {
             rowData => ({
               icon: tableIcons.Delete,
               tooltip: 'Delete Club',
-              onClick: (event, rowData) => confirm("You want to delete " + rowData.name),
+              onClick: (event, rowData) => {
+                const isDelete = confirm(`You want to delete ${rowData.name}(id: ${rowData.id}) ?`);
+                if (isDelete) {
+                  const success = handleDelete(rowData.id);
+                  if (success) alert(`You deleted ${rowData.name}(id: ${rowData.id})`);
+                  else alert(`Can't delete ${rowData.name}(id: ${rowData.id})`);
+                }
+              },
               // disabled: rowData.birthYear < 2000
             }),
             {
               icon: tableIcons.Add,
               tooltip: 'Add New Club',
               isFreeAction: true,
-              // onClick: (event) => alert("You want to add a new row")
               onClick: (event) => router.push("/superadmin/clubs/add")
             }
           ]}
