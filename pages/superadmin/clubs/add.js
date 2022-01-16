@@ -1,24 +1,24 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Head from "next/head";
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
-import { useStyles } from "../../../styles/clubs/Add.style";
-import { TopBar } from "../../../src/components/navigation/TopBar";
-import { MenuBar } from "../../../src/components/navigation/MenuBar";
-import { telephoneValidation, postalCodeValidation } from "../../../src/utils/validation/validation";
+import Head from 'next/head';
+import { Box, Button, Container, TextField, Typography } from '@mui/material';
+import { useStyles } from '../../../styles/clubs/Add.style';
+import { TopBar } from '../../../src/components/navigation/TopBar';
+import { MenuBar } from '../../../src/components/navigation/MenuBar';
+import { telephoneValidation, postalCodeValidation } from '../../../src/utils/validation/validation';
 import { createGym } from '../../../src/utils/fetchApi/clubs';
 import { cloudinaryUploadApi } from '../../../src/utils/fetchApi/api';
 
 const emptyData = {
-  name: "",
+  name: '',
   operationalAdminId: 0,
-  description: "",
-  telephone: "",
-  address: "",
-  district: "",
-  city: "",
-  postalCode: "",
-  picture: "",
+  description: '',
+  telephone: '',
+  address: '',
+  district: '',
+  city: '',
+  postalCode: '',
+  picture: '',
 };
 
 export default function AddClub() {
@@ -26,53 +26,51 @@ export default function AddClub() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(emptyData);
-  const [picture, setPicture] = useState("");
+  const [picture, setPicture] = useState('');
   const [error, setError] = useState({
-    name: { status: false, message: "" },
-    operationalAdminId: { status: false, message: "" },
-    description: { status: false, message: "" },
-    telephone: { status: false, message: "" },
-    address: { status: false, message: "" },
-    district: { status: false, message: "" },
-    city: { status: false, message: "" },
-    postalCode: { status: false, message: "" },
-    picture: { status: false, message: "" },
+    name: { status: false, message: '' },
+    operationalAdminId: { status: false, message: '' },
+    description: { status: false, message: '' },
+    telephone: { status: false, message: '' },
+    address: { status: false, message: '' },
+    district: { status: false, message: '' },
+    city: { status: false, message: '' },
+    postalCode: { status: false, message: '' },
+    picture: { status: false, message: '' },
   });
   const [alert, setAlert] = useState({
     status: false,
-    message: "",
+    message: '',
   });
 
   const handleOnChange = (e) => {
     switch (e.target.name) {
-      case "operationalAdminId":
+      case 'operationalAdminId':
         setData({ ...data, operationalAdminId: parseInt(e.target.value) });
         break;
-      case "telephone":
+      case 'telephone':
         setData({ ...data, telephone: e.target.value });
         telephoneValidation(e.target.value)
-          ? setError({ ...error, telephone: { status: false, message: "" } })
+          ? setError({ ...error, telephone: { status: false, message: '' } })
           : setError({
-            ...error,
-            telephone: {
-              status: true,
-              message:
-                "telephone must be at least 10 characters long and contain only numbers",
-            },
-          });
+              ...error,
+              telephone: {
+                status: true,
+                message: 'telephone must be at least 10 characters long and contain only numbers',
+              },
+            });
         break;
-      case "postalCode":
+      case 'postalCode':
         setData({ ...data, postalCode: e.target.value });
         postalCodeValidation(e.target.value)
-          ? setError({ ...error, postalCode: { status: false, message: "" } })
+          ? setError({ ...error, postalCode: { status: false, message: '' } })
           : setError({
-            ...error,
-            postalCode: {
-              status: true,
-              message:
-                "postal code must be 5 characters long and contain only numbers",
-            },
-          });
+              ...error,
+              postalCode: {
+                status: true,
+                message: 'postal code must be 5 characters long and contain only numbers',
+              },
+            });
       default:
         setData({ ...data, [e.target.name]: e.target.value });
     }
@@ -80,7 +78,7 @@ export default function AddClub() {
 
   const handleChangePicture = (e) => {
     if (!e.target.files[0]) {
-      setError({ ...error, picture: { status: true, message: "picture is required" } });
+      setError({ ...error, picture: { status: true, message: 'picture is required' } });
     }
     setPicture(e.target.files[0]);
   };
@@ -88,25 +86,35 @@ export default function AddClub() {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     const { name, operationalAdminId, description, telephone, address, district, city, postalCode } = data;
-    if (name === "" || operationalAdminId === "" || description === "" || telephone === "" || address === "" || district === "" || city === "" || postalCode === "") {
+    if (
+      name === '' ||
+      operationalAdminId === '' ||
+      description === '' ||
+      telephone === '' ||
+      address === '' ||
+      district === '' ||
+      city === '' ||
+      postalCode === ''
+    ) {
       setAlert({
         status: true,
-        message: "please fill all fields",
+        message: 'please fill all fields',
       });
     } else {
       setLoading(true);
       const pict = await cloudinaryUploadApi(picture);
       const newData = {
-        ...data, picture: pict
+        ...data,
+        picture: pict,
       };
       if (!newData.picture) {
-        setError({ ...error, picture: { status: true, message: "please upload a picture" } });
-        setAlert({ status: true, message: "please upload a picture" });
+        setError({ ...error, picture: { status: true, message: 'please upload a picture' } });
+        setAlert({ status: true, message: 'please upload a picture' });
       } else {
         const res = await createGym(setAlert, newData);
         if (res?.status === 201) {
           setData(emptyData);
-          router.push("/superadmin/clubs");
+          router.push('/superadmin/clubs');
         }
       }
       setLoading(false);
@@ -117,29 +125,29 @@ export default function AddClub() {
     <div className={classes.root}>
       <Head>
         <title>Add New Club</title>
-        <meta name="description" content="Generated by create next app" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name='description' content='Generated by create next app' />
+        <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <TopBar />
 
       <main className={classes.main}>
-        <MenuBar selected={"Clubs"} />
+        <MenuBar selected={'Clubs'} />
         <Container className={classes.form}>
           <Box
-            component="form"
+            component='form'
             className={classes.loginForm}
             onSubmit={(e) => handleOnSubmit(e)}
             style={{
               opacity: loading ? 0.3 : 1,
-              pointerEvents: loading ? "none" : "all",
+              pointerEvents: loading ? 'none' : 'all',
             }}
           >
             <TextField
               className={classes.textField}
-              label="Name"
-              name="name"
-              path="text"
+              label='Name'
+              name='name'
+              path='text'
               value={data.name}
               onChange={(e) => handleOnChange(e)}
               error={error.name.status}
@@ -147,10 +155,10 @@ export default function AddClub() {
             ></TextField>
             <TextField
               className={classes.textField}
-              label="Admin Id"
-              name="operationalAdminId"
-              path="text"
-              type="number"
+              label='Admin Id'
+              name='operationalAdminId'
+              path='text'
+              type='number'
               value={data.operationalAdminId}
               onChange={(e) => handleOnChange(e)}
               error={error.operationalAdminId.status}
@@ -158,11 +166,11 @@ export default function AddClub() {
             ></TextField>
             <TextField
               className={classes.textField}
-              label="Description"
+              label='Description'
               multiline
               minRows={5}
-              name="description"
-              path="text"
+              name='description'
+              path='text'
               value={data.description}
               onChange={(e) => handleOnChange(e)}
               error={error.description.status}
@@ -170,8 +178,8 @@ export default function AddClub() {
             ></TextField>
             <TextField
               className={classes.textField}
-              label="Telephone"
-              name="telephone"
+              label='Telephone'
+              name='telephone'
               value={data.telephone}
               onChange={(e) => handleOnChange(e)}
               error={error.telephone.status}
@@ -181,9 +189,9 @@ export default function AddClub() {
               className={classes.textField}
               multiline
               minRows={3}
-              label="Address"
-              name="address"
-              path="text"
+              label='Address'
+              name='address'
+              path='text'
               value={data.address}
               onChange={(e) => handleOnChange(e)}
               error={error.address.status}
@@ -191,8 +199,8 @@ export default function AddClub() {
             ></TextField>
             <TextField
               className={classes.textField}
-              label="District"
-              name="district"
+              label='District'
+              name='district'
               value={data.district}
               onChange={(e) => handleOnChange(e)}
               error={error.district.status}
@@ -200,8 +208,8 @@ export default function AddClub() {
             ></TextField>
             <TextField
               className={classes.textField}
-              label="City"
-              name="city"
+              label='City'
+              name='city'
               value={data.city}
               onChange={(e) => handleOnChange(e)}
               error={error.city.status}
@@ -209,8 +217,8 @@ export default function AddClub() {
             ></TextField>
             <TextField
               className={classes.textField}
-              label="Postal Code"
-              name="postalCode"
+              label='Postal Code'
+              name='postalCode'
               value={data.postalCode}
               onChange={(e) => handleOnChange(e)}
               error={error.postalCode.status}
@@ -218,7 +226,7 @@ export default function AddClub() {
             ></TextField>
             <Typography
               style={{
-                textAlign: "left",
+                textAlign: 'left',
                 marginBottom: 0,
               }}
             >
@@ -227,18 +235,19 @@ export default function AddClub() {
             <TextField
               className={classes.textField}
               style={{ marginTop: 0 }}
-              placeholder="Picture"
-              type="file"
-              name="picture"
+              placeholder='Picture'
+              type='file'
+              name='picture'
               onChange={(e) => handleChangePicture(e)}
               error={error.picture.status}
               helperText={error.picture.message}
             ></TextField>
             {loading ? (
-              <Button type="submit" variant="contained" className={classes.button} disabled>
+              <Button type='submit' variant='contained' className={classes.button} disabled>
                 SUBMIT
-              </Button>) : (
-              <Button type="submit" variant="contained" className={classes.button}>
+              </Button>
+            ) : (
+              <Button type='submit' variant='contained' className={classes.button}>
                 SUBMIT
               </Button>
             )}

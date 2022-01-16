@@ -33,13 +33,14 @@ export const createGym = async (setAlert, data) => {
         message: res.data.message,
       });
       return res;
-    }).catch((err) => {
+    })
+    .catch((err) => {
       setAlert({
         status: true,
         message: err,
       });
     });
-}
+};
 
 export const updateGym = async (setAlert, data) => {
   return baseApi
@@ -50,13 +51,14 @@ export const updateGym = async (setAlert, data) => {
         message: res.data.message,
       });
       return res;
-    }).catch((err) => {
+    })
+    .catch((err) => {
       setAlert({
         status: true,
         message: err,
       });
     });
-}
+};
 
 export const deleteGym = async (setLoadingState, setAlert, id) => {
   setLoadingState(true);
@@ -68,12 +70,14 @@ export const deleteGym = async (setLoadingState, setAlert, id) => {
         message: res.data.message,
       });
       return res;
-    }).catch((err) => {
+    })
+    .catch((err) => {
       setAlert({
         status: true,
         message: err,
       });
-    }).finally(() => {
+    })
+    .finally(() => {
       setLoadingState(false);
     });
-}
+};
