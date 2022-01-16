@@ -19,6 +19,7 @@
 .DS_Store
 *.pem
 .vscode
+.husky
 
 # debug
 npm-debug.log*

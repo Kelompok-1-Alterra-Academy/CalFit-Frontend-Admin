@@ -14,10 +14,10 @@ const cloudinaryUploadApi = async (picture) => {
   if (!picture) return;
   const formData = new FormData();
   formData.append('file', picture);
-  formData.append('upload_preset', 'calfit');
-  formData.append('cloud_name', 'hydeblazack');
+  formData.append('upload_preset', process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET);
+  formData.append('cloud_name', process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME);
 
-  return await fetch('https://api.cloudinary.com/v1_1/hydeblazack/image/upload', {
+  return await fetch(process.env.NEXT_PUBLIC_CLOUDINARY_API_URL, {
     method: 'post',
     body: formData,
   })

@@ -224,14 +224,7 @@ export default function AddClub() {
               error={error.postalCode.status}
               helperText={error.postalCode.message}
             ></TextField>
-            <Typography
-              style={{
-                textAlign: 'left',
-                marginBottom: 0,
-              }}
-            >
-              Picture
-            </Typography>
+            <Typography className={classes.textFieldTitle}>Picture</Typography>
             <TextField
               className={classes.textField}
               style={{ marginTop: 0 }}

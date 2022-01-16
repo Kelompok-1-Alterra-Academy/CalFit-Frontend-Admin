@@ -55,10 +55,7 @@ export default function ClubsSuperAdmin() {
       <main className={classes.main}>
         <MenuBar selected={'Clubs'} />
         <MaterialTable
-          style={{
-            width: '75%',
-            maxWidth: '75%',
-          }}
+          className={classes.table}
           title='Clubs'
           icons={tableIcons}
           columns={[
@@ -77,7 +74,7 @@ export default function ClubsSuperAdmin() {
             {
               icon: tableIcons.Edit,
               tooltip: 'Edit Club',
-              onClick: (event, rowData) => alert('You saved ' + rowData.name),
+              onClick: (event, rowData) => router.push(`/superadmin/clubs/edit/${rowData.id}`),
             },
             (rowData) => ({
               icon: tableIcons.Delete,

@@ -32,35 +32,6 @@ export const useStyles = makeStyles((theme) => ({
     maxWidth: "60%",
     // width: "900px !important",
   },
-  menu: {
-    display: "flex",
-    flexDirection: "row",
-    width: "90%",
-    height: "40px",
-    margin: "5px 0",
-    alignItems: "center",
-  },
-  menuIcon: {
-    margin: "0 10px",
-  },
-  selectedMenu: {
-    alignItems: "center",
-    display: "flex",
-    flexDirection: "row",
-    width: "100%",
-    height: "40px",
-    margin: "5px 0",
-    backgroundColor: "#2F80ED40",
-    borderRadius: "5px",
-    color: "#2F80ED",
-  },
-  innerBox: {
-    margin: "auto",
-    backgroundColor: "#fff",
-    padding: 20,
-    width: "40%",
-    borderRadius: 15,
-  },
   textField: {
     margin: "20px 0",
     width: "100%",
@@ -73,6 +44,10 @@ export const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  textFieldTitle: {
+    textAlign: 'left',
+    marginBottom: 0,
+  },
   loginForm: {
     margin: "30px 10%",
   },
@@ -80,10 +55,5 @@ export const useStyles = makeStyles((theme) => ({
     backgroundColor: "black",
     color: "white",
     width: "100%",
-  },
-  link: {
-    color: theme.palette.secondary,
-    textDecoration: "none",
-    cursor: "pointer",
   },
 }));

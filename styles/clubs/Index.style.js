@@ -19,4 +19,8 @@ export const useStyles = makeStyles((theme) => ({
     maxWidth: "1400px",
     justifyContent: "space-around",
   },
+  table: {
+    width: '75%',
+    maxWidth: '75%',
+  },
 }));
