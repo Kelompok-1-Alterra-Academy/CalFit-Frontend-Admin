@@ -27,13 +27,16 @@ const emptyData = {
   district: "",
   city: "",
   postalCode: "",
-  picture: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
+  // picture: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
+  picture: "",
 };
 
 export default function AddClub() {
   const classes = useStyles();
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState(emptyData);
+  const [picture, setPicture] = useState("");
   const [error, setError] = useState({
     name: { status: false, message: "" },
     operationalAdminId: { status: false, message: "" },
@@ -43,6 +46,7 @@ export default function AddClub() {
     district: { status: false, message: "" },
     city: { status: false, message: "" },
     postalCode: { status: false, message: "" },
+    picture: { status: false, message: "" },
   });
   const [alert, setAlert] = useState({
     status: false,
@@ -84,6 +88,28 @@ export default function AddClub() {
     }
   };
 
+  const handleChangePicture = (e) => {
+    setPicture(e.target.files[0]);
+  };
+
+  const handleUploadPicture = async () => {
+    if (!picture) return;
+    const formData = new FormData();
+    formData.append("file", picture);
+    formData.append("upload_preset", "calfit");
+    formData.append("cloud_name", "hydeblazack");
+
+    return await fetch("https://api.cloudinary.com/v1_1/hydeblazack/image/upload", {
+      method: "post",
+      body: formData,
+    }).then((res) => res.json())
+      .then((data) => {
+        // setData({ ...data, picture: data.secure_url });
+        return data.secure_url;
+      })
+      .catch((err) => setError({ ...error, picture: { status: true, message: err } }));
+  };
+
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     const { name, operationalAdminId, description, telephone, address, district, city, postalCode } = data;
@@ -93,11 +119,24 @@ export default function AddClub() {
         message: "please fill all fields",
       });
     } else {
-      const res = await createGym(setAlert, data);
-      if (res.status === 201) {
-        setData(emptyData);
-        router.push("/superadmin/clubs");
+      setLoading(true);
+      const pict = await handleUploadPicture();
+      const newData = {
+        ...data, picture: pict
+      };
+      if (newData.picture === "") {
+        setAlert({
+          status: true,
+          message: "please upload a picture",
+        });
+      } else {
+        const res = await createGym(setAlert, newData);
+        if (res?.status === 201) {
+          setData(emptyData);
+          router.push("/superadmin/clubs");
+        }
       }
+      setLoading(false);
     }
   };
 
@@ -114,10 +153,19 @@ export default function AddClub() {
       <main className={classes.main}>
         <MenuBar selected={"Clubs"} />
         <Container className={classes.form}>
+          {/* {loading ? (
+            <div className={classes.loading}>
+              Loading...
+            </div>
+          ) : ( */}
           <Box
             component="form"
             className={classes.loginForm}
             onSubmit={(e) => handleOnSubmit(e)}
+            style={{
+              opacity: loading ? 0 : 1,
+              // pointerEvents: loading ? "none" : "all",
+            }}
           >
             <TextField
               className={classes.textField}
@@ -214,30 +262,13 @@ export default function AddClub() {
               placeholder="Picture"
               type="file"
               name="picture"
-              onChange={(e) => handleOnChange(e)}
-            // error={error.picture.status}
-            // helperText={error.picture.message}
+              onChange={(e) => handleChangePicture(e)}
             ></TextField>
             <Button type="submit" variant="contained" className={classes.button}>
               SUBMIT
             </Button>
           </Box>
-          {/* {menuItems.map(item => (
-            selected === item.label ?
-            <div className={classes.selectedMenu} key={item.label}>
-            <item.icon className={classes.menuIcon} />
-            <div>{item.label}</div>
-            </div>
-            :
-            <div className={classes.menu} key={item.label}>
-            <item.icon className={classes.menuIcon} />
-            <Link href={item.href} passHref>
-            <div>{item.label}</div>
-                </Link>
-              </div>
-          ))} */}
         </Container>
-
       </main>
     </div>
   );

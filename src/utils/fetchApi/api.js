@@ -10,5 +10,7 @@ const baseApi = axios.create({
     },
 });
 
-export default baseApi;
-// export { baseApi};
+
+
+// export default baseApi;
+export { baseApi };

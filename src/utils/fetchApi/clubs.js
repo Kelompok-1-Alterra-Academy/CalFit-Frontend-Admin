@@ -1,4 +1,4 @@
-import baseApi from './api';
+import { baseApi } from './api';
 
 export const getAllGyms = async (setLoadingState, setData, { limit, page }) => {
   setLoadingState(true);
