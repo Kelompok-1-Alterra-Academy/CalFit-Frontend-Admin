@@ -25,15 +25,16 @@ export default function ClassesSuperAdmin() {
   console.log(classesList);
 
   useEffect(() => {
-    classesList?.map((club) => {
-      club.type = club.online ? 'Online' : 'Offline';
+    classesList?.map((classItem) => {
+      classItem.type = classItem.online ? 'Online' : 'Offline';
     });
   }, [classesList]);
 
-  const handleDelete = async (id) => {
-    const res = await deleteClass(setLoading, setAlertClasses, id);
-    if (res.status === 202) {
-      setClassesList(classesList.filter((club) => club.id !== id));
+  const handleDelete = async (gymId, classId) => {
+    const res = await deleteClass(setLoading, setAlertClasses, gymId, classId);
+    console.log(res);
+    if (res.status === 200) {
+      setClassesList(classesList.filter((classItem) => classItem.id !== classId));
       return true;
     }
     return false;
@@ -76,7 +77,7 @@ export default function ClassesSuperAdmin() {
               onClick: (event, rowData) => {
                 const isDelete = confirm(`You want to delete ${rowData.name}(id: ${rowData.id}) ?`);
                 if (isDelete) {
-                  const success = handleDelete(rowData.id);
+                  const success = handleDelete(rowData.gymID, rowData.id);
                   if (success) alert(`You deleted ${rowData.name}(id: ${rowData.id})`);
                   else alert(`Can't delete ${rowData.name}(id: ${rowData.id})`);
                 }
