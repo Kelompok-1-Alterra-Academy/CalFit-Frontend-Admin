@@ -2,11 +2,12 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import MaterialTable from 'material-table';
-import { useStyles } from '../../../styles/classes/Index.style';
-import { TopBar } from '../../../src/components/navigation/TopBar';
-import { MenuBar } from '../../../src/components/navigation/MenuBar';
-import { tableIcons } from '../../../src/components/table/MaterialTable';
-import { getAllClasses, deleteClass } from '../../../src/utils/fetchApi/classes';
+import { useStyles } from '../../../../../styles/classes/Index.style';
+import { TopBar } from '../../../../../src/components/navigation/TopBar';
+import { MenuBar } from '../../../../../src/components/navigation/MenuBar';
+import { tableIcons } from '../../../../../src/components/table/MaterialTable';
+import { getAllClasses, deleteClass } from '../../../../../src/utils/fetchApi/classes';
+import { getClassesByGymId } from '../../../../../src/utils/fetchApi/clubs';
 
 export default function ClassesSuperAdmin() {
   const styles = useStyles();
@@ -19,8 +20,10 @@ export default function ClassesSuperAdmin() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    getAllClasses(setLoading, setClassesList, { limit: 1000, page: 1 });
-  }, []);
+    if (router.query.id) {
+      getClassesByGymId(setLoading, setClassesList, router.query.id);
+    }
+  }, [router.query.id]);
 
   console.log(classesList);
 
@@ -69,7 +72,7 @@ export default function ClassesSuperAdmin() {
             {
               icon: tableIcons.Edit,
               tooltip: 'Edit Class',
-              onClick: (event, rowData) => router.push(`/superadmin/classes/edit/${rowData.id}`),
+              onClick: (event, rowData) => router.push(`/superadmin/classes/${rowData.id}/edit`),
             },
             (rowData) => ({
               icon: tableIcons.Delete,
@@ -83,12 +86,12 @@ export default function ClassesSuperAdmin() {
                 }
               },
             }),
-            // {
-            //   icon: tableIcons.Add,
-            //   tooltip: 'Add New Class',
-            //   isFreeAction: true,
-            //   onClick: (event) => router.push('/superadmin/classes/add'),
-            // },
+            {
+              icon: tableIcons.Add,
+              tooltip: 'Add New Class',
+              isFreeAction: true,
+              onClick: (event) => router.push(`/superadmin/clubs/${router.query.id}/classes/add`),
+            },
           ]}
           options={{
             actionsColumnIndex: -1,

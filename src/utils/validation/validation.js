@@ -12,3 +12,8 @@ export const passwordValidation = (password) => {
   const passwordValidation = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
   return passwordValidation.test(password);
 };
+
+export const urlValidation = (url) => {
+  const urlValidation = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
+  return urlValidation.test(url);
+}

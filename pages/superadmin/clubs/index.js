@@ -59,7 +59,7 @@ export default function ClubsSuperAdmin() {
           title='Clubs'
           icons={tableIcons}
           columns={[
-            { title: 'Id', field: 'id' },
+            { title: 'Id', field: 'id', width: '10%' },
             { title: 'Name', field: 'name' },
             {
               title: 'Admin',
@@ -72,9 +72,14 @@ export default function ClubsSuperAdmin() {
           data={clubs}
           actions={[
             {
+              icon: tableIcons.ListAlt,
+              tooltip: 'View Classes',
+              onClick: (event, rowData) => router.push(`/superadmin/clubs/${rowData.id}/classes`),
+            },
+            {
               icon: tableIcons.Edit,
               tooltip: 'Edit Club',
-              onClick: (event, rowData) => router.push(`/superadmin/clubs/edit/${rowData.id}`),
+              onClick: (event, rowData) => router.push(`/superadmin/clubs/${rowData.id}/edit`),
             },
             (rowData) => ({
               icon: tableIcons.Delete,
