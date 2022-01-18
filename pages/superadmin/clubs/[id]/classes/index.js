@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import MaterialTable from 'material-table';
+import { Grid } from '@mui/material';
 import { useStyles } from '../../../../../styles/classes/Index.style';
 import { TopBar } from '../../../../../src/components/navigation/TopBar';
 import { MenuBar } from '../../../../../src/components/navigation/MenuBar';
@@ -54,49 +55,55 @@ export default function ClassesSuperAdmin() {
       <TopBar />
 
       <main className={styles.main}>
-        <MenuBar selected={'Classes'} />
-        <MaterialTable
-          className={styles.table}
-          title='Classes'
-          icons={tableIcons}
-          columns={[
-            { title: 'Id', field: 'id' },
-            { title: 'Name', field: 'name' },
-            { title: 'Gym Id', field: 'gymID', width: '10%' },
-            { title: 'Type', field: 'type', width: '10%' },
-            { title: 'Category', field: 'category' },
-            { title: 'Status', field: 'status' },
-          ]}
-          data={classesList}
-          actions={[
-            {
-              icon: tableIcons.Edit,
-              tooltip: 'Edit Class',
-              onClick: (event, rowData) => router.push(`/superadmin/classes/${rowData.id}/edit`),
-            },
-            (rowData) => ({
-              icon: tableIcons.Delete,
-              tooltip: 'Delete Class',
-              onClick: (event, rowData) => {
-                const isDelete = confirm(`You want to delete ${rowData.name}(id: ${rowData.id}) ?`);
-                if (isDelete) {
-                  const success = handleDelete(rowData.gymID, rowData.id);
-                  if (success) alert(`You deleted ${rowData.name}(id: ${rowData.id})`);
-                  else alert(`Can't delete ${rowData.name}(id: ${rowData.id})`);
-                }
-              },
-            }),
-            {
-              icon: tableIcons.Add,
-              tooltip: 'Add New Class',
-              isFreeAction: true,
-              onClick: (event) => router.push(`/superadmin/clubs/${router.query.id}/classes/add`),
-            },
-          ]}
-          options={{
-            actionsColumnIndex: -1,
-          }}
-        />
+        <Grid container spacing={2} m={2}>
+          <Grid item xs={3} >
+            <MenuBar selected={'Classes'} />
+          </Grid>
+          <Grid item xs={9}>
+            <MaterialTable
+              className={styles.table}
+              title='Classes'
+              icons={tableIcons}
+              columns={[
+                { title: 'Id', field: 'id' },
+                { title: 'Name', field: 'name' },
+                { title: 'Gym Id', field: 'gymID', width: '10%' },
+                { title: 'Type', field: 'type', width: '10%' },
+                { title: 'Category', field: 'category' },
+                { title: 'Status', field: 'status' },
+              ]}
+              data={classesList}
+              actions={[
+                {
+                  icon: tableIcons.Edit,
+                  tooltip: 'Edit Class',
+                  onClick: (event, rowData) => router.push(`/superadmin/classes/${rowData.id}/edit`),
+                },
+                (rowData) => ({
+                  icon: tableIcons.Delete,
+                  tooltip: 'Delete Class',
+                  onClick: (event, rowData) => {
+                    const isDelete = confirm(`You want to delete ${rowData.name}(id: ${rowData.id}) ?`);
+                    if (isDelete) {
+                      const success = handleDelete(rowData.gymID, rowData.id);
+                      if (success) alert(`You deleted ${rowData.name}(id: ${rowData.id})`);
+                      else alert(`Can't delete ${rowData.name}(id: ${rowData.id})`);
+                    }
+                  },
+                }),
+                {
+                  icon: tableIcons.Add,
+                  tooltip: 'Add New Class',
+                  isFreeAction: true,
+                  onClick: (event) => router.push(`/superadmin/clubs/${router.query.id}/classes/add`),
+                },
+              ]}
+              options={{
+                actionsColumnIndex: -1,
+              }}
+            />
+          </Grid>
+        </Grid>
       </main>
     </div>
   );
