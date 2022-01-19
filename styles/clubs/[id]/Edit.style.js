@@ -29,8 +29,7 @@ export const useStyles = makeStyles((theme) => ({
     height: "auto",
     marginRight: "20px",
     marginLeft: "0",
-    maxWidth: "60%",
-    // width: "900px !important",
+    maxWidth: "100%",
   },
   textField: {
     margin: "20px 0",
