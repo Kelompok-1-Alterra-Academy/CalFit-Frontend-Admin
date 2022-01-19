@@ -29,9 +29,9 @@ export const getClassById = async (setLoadingState, setData, id) => {
     });
 };
 
-export const createClass = async (setAlert, data) => {
+export const createClass = async (setAlert, data, clubId) => {
   return baseApi
-    .post(`/classes`, data)
+    .post(`/gyms/${clubId}/classes`, data)
     .then((res) => {
       setAlert({
         status: true,
@@ -47,9 +47,9 @@ export const createClass = async (setAlert, data) => {
     });
 };
 
-export const updateClass = async (setAlert, data) => {
+export const updateClass = async (setAlert, data, clubId, classId) => {
   return baseApi
-    .put(`/classes/${data.id}`, data)
+    .put(`/gyms/${clubId}/classes/${classId}`, data)
     .then((res) => {
       setAlert({
         status: true,

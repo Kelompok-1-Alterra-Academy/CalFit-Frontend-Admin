@@ -12,7 +12,9 @@ export const MenuBar = ({ selected }) => {
         selected === item.label ? (
           <div className={classes.selectedMenu} key={item.label}>
             <item.icon className={classes.menuIcon} />
-            <div>{item.label}</div>
+            <Link href={item.href} passHref>
+              <div>{item.label}</div>
+            </Link>
           </div>
         ) : (
           <div className={classes.menu} key={item.label}>
