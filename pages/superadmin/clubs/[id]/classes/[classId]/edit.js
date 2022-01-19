@@ -11,12 +11,12 @@ import {
   Select,
   TextField, Typography
 } from '@mui/material';
-import { useStyles } from '../../../../../styles/clubs/[id]/classes/Add.style';
-import { TopBar } from '../../../../../src/components/navigation/TopBar';
-import { MenuBar } from '../../../../../src/components/navigation/MenuBar';
-import { urlValidation } from '../../../../../src/utils/validation/validation';
-import { createClass } from '../../../../../src/utils/fetchApi/classes';
-import { cloudinaryUploadApi } from '../../../../../src/utils/fetchApi/api';
+import { useStyles } from '../../../../../../styles/clubs/[id]/classes/[classId]/Edit.style';
+import { TopBar } from '../../../../../../src/components/navigation/TopBar';
+import { MenuBar } from '../../../../../../src/components/navigation/MenuBar';
+import { urlValidation } from '../../../../../../src/utils/validation/validation';
+import { getClassById, updateClass } from '../../../../../../src/utils/fetchApi/classes';
+import { cloudinaryUploadApi } from '../../../../../../src/utils/fetchApi/api';
 
 const emptyData = {
   name: '',
@@ -31,10 +31,11 @@ const emptyData = {
   status: '',
 };
 
-export default function AddClass() {
+export default function UpdateClass() {
   const classes = useStyles();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [classItem, setClassItem] = useState(emptyData);
   const [data, setData] = useState(emptyData);
   const [cardPicture, setCardPicture] = useState('');
   const [bannerPicture, setBannerPicture] = useState('');
@@ -47,8 +48,8 @@ export default function AddClass() {
     online: { status: false, message: '' },
     link: { status: false, message: '' },
     price: { status: false, message: '' },
-    bannerPictureUrl: { status: false, message: '' },
-    cardPictureUrl: { status: false, message: '' },
+    bannerPicture: { status: false, message: '' },
+    cardPicture: { status: false, message: '' },
     status: { status: false, message: '' },
   });
   const [alert, setAlert] = useState({
@@ -64,6 +65,28 @@ export default function AddClass() {
       } else localStorage.removeItem('firstLoad');
     }
   }, [])
+
+  useEffect(() => {
+    if (router.query.classId) {
+      getClassById(setLoading, setClassItem, router.query.classId);
+    }
+  }, [router.query.classId]);
+
+  useEffect(() => {
+    setData({
+      name: classItem.name,
+      membershipTypeId: classItem.membership_typeID,
+      description: classItem.description,
+      category: classItem.category,
+      online: classItem.online,
+      link: classItem.link,
+      price: classItem.price,
+      bannerPictureUrl: classItem.banner_picture_url,
+      cardPictureUrl: classItem.card_picture_url,
+      status: classItem.status,
+    });
+    if (classItem.online) setIsOnline(true);
+  }, [classItem]);
 
   const handleOnChange = (e) => {
     switch (e.target.name) {
@@ -91,12 +114,15 @@ export default function AddClass() {
   };
 
   const handleChangePicture = (e) => {
-    if (!e.target.files[0])
-      setError({ ...error, [e.target.name]: { status: true, message: 'picture is required' } });
-    if (e.target.files[0].size > 5000000)
+    if (!e.target.files[0]) return;
+    if (e.target.files[0].size > 5000000) {
       setError({ ...error, [e.target.name]: { status: true, message: 'picture size must be less than 5MB' } });
-    if (e.target.files[0].type !== 'image/jpeg' && e.target.files[0].type !== 'image/png')
-      setError({ ...error, [e.target.name]: { status: true, message: 'picture must be a jpeg or png' } });
+      return;
+    }
+    if (e.target.files[0].type !== 'image/jpeg' && e.target.files[0].type !== 'image/png' && e.target.files[0].type !== 'image/jpg') {
+      setError({ ...error, [e.target.name]: { status: true, message: 'picture must be a jpeg, jpg, or png' } });
+      return;
+    }
 
     if (e.target.name === 'cardPicture') setCardPicture(e.target.files[0]);
     else if (e.target.name === 'bannerPicture') setBannerPicture(e.target.files[0]);
@@ -119,27 +145,20 @@ export default function AddClass() {
       });
     } else {
       setLoading(true);
-      const bannerPict = await cloudinaryUploadApi(bannerPicture);
-      const cardPict = await cloudinaryUploadApi(cardPicture);
-      const newData = {
+      let bannerPict, cardPict;
+      if (bannerPicture)
+        bannerPict = await cloudinaryUploadApi(bannerPicture);
+      if (cardPicture)
+        cardPict = await cloudinaryUploadApi(cardPicture);
+      const updatedData = {
         ...data,
-        bannerPictureUrl: bannerPict,
-        cardPictureUrl: cardPict,
+        bannerPictureUrl: bannerPict ?? data.bannerPictureUrl,
+        cardPictureUrl: cardPict ?? data.cardPictureUrl,
       };
-      if (!newData.bannerPictureUrl) {
-        setError({ ...error, bannerPictureUrl: { status: true, message: 'banner picture is required' } });
-        setAlert({ status: true, message: 'please upload a banner picture' });
-        if (!newData.cardPictureUrl) {
-          setError({ ...error, cardPictureUrl: { status: true, message: 'card picture is required' } });
-          setAlert({ status: true, message: 'please upload a card picture' });
-        }
-      }
-      else {
-        const res = await createClass(setAlert, newData, router.query.id);
-        if (res?.status === 201) {
-          setData(emptyData);
-          router.push(`/superadmin/clubs/${router.query.id}/classes`);
-        }
+      const res = await updateClass(setAlert, updatedData, router.query.id, router.query.classId);
+      if (res?.status === 200) {
+        setData(emptyData);
+        router.push(`/superadmin/clubs/${router.query.id}/classes`);
       }
       setLoading(false);
     }
@@ -148,7 +167,7 @@ export default function AddClass() {
   return (
     <div className={classes.root}>
       <Head>
-        <title>Add New Club</title>
+        <title>Edit {classItem?.name} classItem</title>
         <meta name='description' content='Generated by create next app' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
@@ -171,7 +190,7 @@ export default function AddClass() {
                   pointerEvents: loading ? 'none' : 'all',
                 }}
               >
-                <Typography variant='h3' align='center' className={classes.formTitle}>Add New Class</Typography>
+                <Typography variant='h3' align='center' className={classes.formTitle}>{`Update ${classItem?.name}`}</Typography>
                 <TextField
                   className={classes.textField}
                   label='Name'
@@ -268,31 +287,27 @@ export default function AddClass() {
                     <MenuItem value={'Inactive'}>Inactive</MenuItem>
                   </Select>
                 </FormControl>
-                <InputLabel id='card-label' className={classes.textFieldTitle}>Card Picture *</InputLabel>
+                <InputLabel id='card-label' className={classes.textFieldTitle}>Card Picture</InputLabel>
                 <TextField
                   labelId='card-label'
                   className={classes.textField}
                   style={{ marginTop: 0 }}
-                  placeholder='Picture'
                   type='file'
                   name='cardPicture'
                   onChange={(e) => handleChangePicture(e)}
-                  error={error.cardPictureUrl.status}
-                  helperText={error.cardPictureUrl.message}
-                  required
+                  error={error.cardPicture.status}
+                  helperText={error.cardPicture.message}
                 ></TextField>
-                <InputLabel id='banner-label' className={classes.textFieldTitle}>Banner Picture *</InputLabel>
+                <InputLabel id='banner-label' className={classes.textFieldTitle}>Banner Picture</InputLabel>
                 <TextField
                   labelId='banner-label'
                   className={classes.textField}
                   style={{ marginTop: 0 }}
-                  placeholder='Picture'
                   type='file'
                   name='bannerPicture'
                   onChange={(e) => handleChangePicture(e)}
-                  error={error.bannerPictureUrl.status}
-                  helperText={error.bannerPictureUrl.message}
-                  required
+                  error={error.bannerPicture.status}
+                  helperText={error.bannerPicture.message}
                 ></TextField>
                 {loading ? (
                   <Button type='submit' variant='contained' className={classes.button} disabled>
@@ -308,6 +323,6 @@ export default function AddClass() {
           </Grid>
         </Grid>
       </main>
-    </div >
+    </div>
   );
 }

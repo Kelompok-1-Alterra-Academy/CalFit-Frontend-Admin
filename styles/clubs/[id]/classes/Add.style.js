@@ -32,6 +32,10 @@ export const useStyles = makeStyles((theme) => ({
     maxWidth: "100%",
     // width: "900px !important",
   },
+  formTitle: {
+    fontSize: '1.5rem',
+    fontWeight: 'bold',
+  },
   textField: {
     margin: "20px 0",
     width: "100%",

@@ -74,7 +74,8 @@ export default function ClassesSuperAdmin() {
                 {
                   icon: tableIcons.Edit,
                   tooltip: 'Edit Class',
-                  onClick: (event, rowData) => router.push(`/superadmin/classes/edit/${rowData.id}`),
+                  // onClick: (event, rowData) => router.push(`/superadmin/classes/edit/${rowData.id}`),
+                  onClick: (event, rowData) => router.push(`/superadmin/clubs/${rowData.gymID}/classes/${rowData.id}/edit`),
                 },
                 (rowData) => ({
                   icon: tableIcons.Delete,

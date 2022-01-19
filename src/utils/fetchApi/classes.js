@@ -48,6 +48,7 @@ export const createClass = async (setAlert, data, clubId) => {
 };
 
 export const updateClass = async (setAlert, data, clubId, classId) => {
+  console.log("data", data);
   return baseApi
     .put(`/gyms/${clubId}/classes/${classId}`, data)
     .then((res) => {
