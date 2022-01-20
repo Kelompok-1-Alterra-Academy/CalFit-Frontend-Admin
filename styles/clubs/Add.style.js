@@ -29,8 +29,12 @@ export const useStyles = makeStyles((theme) => ({
     height: "auto",
     marginRight: "20px",
     marginLeft: "0",
-    maxWidth: "60%",
+    maxWidth: "100%",
     // width: "900px !important",
+  },
+  formTitle: {
+    fontSize: '1.5rem',
+    fontWeight: 'bold',
   },
   textField: {
     margin: "20px 0",
