@@ -24,6 +24,20 @@ export const getGymById = async (setLoadingState, setData, id) => {
     });
 };
 
+export const getClassesByGymId = async (setLoadingState, setData, id) => {
+  setLoadingState(true);
+  return baseApi
+    .get(`/gyms/${id}`)
+    .then((res) => {
+      console.log(res.data.data);
+      console.log(res.data.data.classes);
+      setData(res.data.data.classes ?? []);
+    })
+    .finally(() => {
+      setLoadingState(false);
+    });
+};
+
 export const createGym = async (setAlert, data) => {
   return baseApi
     .post(`/gyms`, data)
