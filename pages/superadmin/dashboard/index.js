@@ -3,11 +3,57 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import MaterialTable from 'material-table';
 import { Box, Container, Grid, Typography } from '@mui/material';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useStyles } from '../../../styles/Home.style';
 import { TopBar } from '../../../src/components/navigation/TopBar';
 import { MenuBar } from '../../../src/components/navigation/MenuBar';
 import { getGymsCount } from '../../../src/utils/fetchApi/clubs';
 import { getClassesCount } from '../../../src/utils/fetchApi/classes';
+
+const data = [
+  {
+    name: 'Page A',
+    uv: 4000,
+    pv: 2400,
+    amt: 2400,
+  },
+  {
+    name: 'Page B',
+    uv: 3000,
+    pv: 1398,
+    amt: 2210,
+  },
+  {
+    name: 'Page C',
+    uv: 2000,
+    pv: 9800,
+    amt: 2290,
+  },
+  {
+    name: 'Page D',
+    uv: 2780,
+    pv: 3908,
+    amt: 2000,
+  },
+  {
+    name: 'Page E',
+    uv: 1890,
+    pv: 4800,
+    amt: 2181,
+  },
+  {
+    name: 'Page F',
+    uv: 2390,
+    pv: 3800,
+    amt: 2500,
+  },
+  {
+    name: 'Page G',
+    uv: 3490,
+    pv: 4300,
+    amt: 2100,
+  },
+];
 
 export default function ClubsSuperAdmin() {
   const [clubsCount, setClubsCount] = useState(0);
@@ -42,13 +88,7 @@ export default function ClubsSuperAdmin() {
                 <Typography variant='h4' gutterBottom className={classes.countCardTitle}>
                   Total Gyms
                 </Typography>
-                <Box style={{
-                  display: "flex",
-                  flex: 1,
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}>
+                <Box className={classes.countNumberBox}>
                   <Typography variant='h4' gutterBottom className={classes.countNumber} style={{
                     fontSize: clubsCount > 99999 ? '1.75rem' : '3rem',
                   }}>
@@ -62,13 +102,7 @@ export default function ClubsSuperAdmin() {
                 <Typography variant='h4' gutterBottom className={classes.countCardTitle}>
                   Total Classes
                 </Typography>
-                <Box style={{
-                  display: "flex",
-                  flex: 1,
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}>
+                <Box className={classes.countNumberBox}>
                   <Typography variant='h4' gutterBottom className={classes.countNumber} style={{
                     fontSize: classesCount > 99999 ? '1.75rem' : '3rem',
                   }}>
@@ -82,13 +116,7 @@ export default function ClubsSuperAdmin() {
                 <Typography variant='h4' gutterBottom className={classes.countCardTitle}>
                   Total Gyms
                 </Typography>
-                <Box style={{
-                  display: "flex",
-                  flex: 1,
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}>
+                <Box className={classes.countNumberBox}>
                   <Typography variant='h4' gutterBottom className={classes.countNumber} style={{
                     fontSize: clubsCount > 99999 ? '1.75rem' : '3rem',
                   }}>
@@ -102,13 +130,7 @@ export default function ClubsSuperAdmin() {
                 <Typography variant='h4' gutterBottom className={classes.countCardTitle}>
                   Total Classes
                 </Typography>
-                <Box style={{
-                  display: "flex",
-                  flex: 1,
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}>
+                <Box className={classes.countNumberBox}>
                   <Typography variant='h4' gutterBottom className={classes.countNumber} style={{
                     fontSize: classesCount > 99999 ? '1.75rem' : '3rem',
                   }}>
@@ -119,7 +141,32 @@ export default function ClubsSuperAdmin() {
             </Grid>
           </Grid>
           <Grid item xs={5}>
-            <MenuBar selected={'Dashboard'} />
+            {/* <MenuBar selected={'Dashboard'} /> */}
+            <Container className={classes.chartCard}>
+              <Typography variant='h4' gutterBottom className={classes.countCardTitle}>Bookings Charts</Typography>
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart
+                  width={500}
+                  height={300}
+                  data={data}
+                  margin={{
+                    top: 5,
+                    right: 30,
+                    left: 20,
+                    bottom: 5,
+                  }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
+                  {/* <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+                <Line type="monotone" dataKey="amt" stroke="#82ca9d" /> */}
+                </LineChart>
+              </ResponsiveContainer>
+            </Container>
           </Grid>
         </Grid>
       </main>

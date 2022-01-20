@@ -24,7 +24,6 @@ export const getGymsCount = async (setLoadingState, setData) => {
     });
 };
 
-
 export const getClassesByGymId = async (setLoadingState, setData, id) => {
   setLoadingState(true);
   return baseApi
