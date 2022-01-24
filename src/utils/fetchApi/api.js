@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { parseCookies } from 'nookies';
 
 const baseApi = axios.create({
   baseURL: process.env.NEXT_PUBLIC_SERVER_API_URL,
@@ -6,6 +7,7 @@ const baseApi = axios.create({
   headers: {
     post: {
       'Content-Type': 'application/json',
+      'Authorization': `Bearer ${parseCookies()['token']}`,
     },
   },
 });
