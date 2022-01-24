@@ -23,8 +23,6 @@ export default function ClassesSuperAdmin() {
     getAllClasses(setLoading, setClassesList, { limit: 1000, page: 1 });
   }, []);
 
-  console.log(classesList);
-
   useEffect(() => {
     classesList?.map((classItem) => {
       classItem.type = classItem.online ? 'Online' : 'Offline';
