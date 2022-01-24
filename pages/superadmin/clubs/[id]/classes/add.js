@@ -2,14 +2,20 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import {
-  Box, Button, Container,
+  Box,
+  Button,
+  Container,
   FormControl,
-  FormControlLabel, FormLabel, Grid,
+  FormControlLabel,
+  FormLabel,
+  Grid,
   InputLabel,
-  MenuItem, Radio,
+  MenuItem,
+  Radio,
   RadioGroup,
   Select,
-  TextField, Typography
+  TextField,
+  Typography,
 } from '@mui/material';
 import { useStyles } from '../../../../../styles/clubs/[id]/classes/Add.style';
 import { TopBar } from '../../../../../src/components/navigation/TopBar';
@@ -63,7 +69,7 @@ export default function AddClass() {
         window.location.reload();
       } else localStorage.removeItem('firstLoad');
     }
-  }, [])
+  }, []);
 
   const handleOnChange = (e) => {
     switch (e.target.name) {
@@ -80,9 +86,10 @@ export default function AddClass() {
       case 'link':
         setData({ ...data, link: e.target.value });
         setError({
-          ...error, link: urlValidation(e.target.value) ?
-            { status: false, message: '' } :
-            { status: true, message: 'please enter a valid url' },
+          ...error,
+          link: urlValidation(e.target.value)
+            ? { status: false, message: '' }
+            : { status: true, message: 'please enter a valid url' },
         });
         break;
       default:
@@ -91,8 +98,7 @@ export default function AddClass() {
   };
 
   const handleChangePicture = (e) => {
-    if (!e.target.files[0])
-      setError({ ...error, [e.target.name]: { status: true, message: 'picture is required' } });
+    if (!e.target.files[0]) setError({ ...error, [e.target.name]: { status: true, message: 'picture is required' } });
     if (e.target.files[0].size > 5000000)
       setError({ ...error, [e.target.name]: { status: true, message: 'picture size must be less than 5MB' } });
     if (e.target.files[0].type !== 'image/jpeg' && e.target.files[0].type !== 'image/png')
@@ -105,14 +111,7 @@ export default function AddClass() {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     const { name, description, category, online, status, price } = data;
-    if (
-      name === '' ||
-      description === '' ||
-      category === '' ||
-      status === '' ||
-      online === '' ||
-      price === ''
-    ) {
+    if (name === '' || description === '' || category === '' || status === '' || online === '' || price === '') {
       setAlert({
         status: true,
         message: 'please fill all fields',
@@ -133,8 +132,7 @@ export default function AddClass() {
           setError({ ...error, cardPictureUrl: { status: true, message: 'card picture is required' } });
           setAlert({ status: true, message: 'please upload a card picture' });
         }
-      }
-      else {
+      } else {
         const res = await createClass(setAlert, newData, router.query.id);
         if (res?.status === 201) {
           setData(emptyData);
@@ -157,7 +155,7 @@ export default function AddClass() {
 
       <main className={classes.main}>
         <Grid container spacing={2} m={2}>
-          <Grid item xs={3} >
+          <Grid item xs={3}>
             <MenuBar selected={'Clubs'} />
           </Grid>
           <Grid item xs={9}>
@@ -171,7 +169,9 @@ export default function AddClass() {
                   pointerEvents: loading ? 'none' : 'all',
                 }}
               >
-                <Typography variant='h3' align='center' className={classes.formTitle}>Add New Class</Typography>
+                <Typography variant='h3' align='center' className={classes.formTitle}>
+                  Add New Class
+                </Typography>
                 <TextField
                   className={classes.textField}
                   label='Name'
@@ -219,13 +219,21 @@ export default function AddClass() {
                   required
                 ></TextField>
                 <FormControl fullWidth required>
-                  <FormLabel id='online' className={classes.textFieldTitle}>Type</FormLabel>
-                  <RadioGroup row aria-label='online' name='online' value={data.online} onChange={(e) => handleOnChange(e)}>
+                  <FormLabel id='online' className={classes.textFieldTitle}>
+                    Type
+                  </FormLabel>
+                  <RadioGroup
+                    row
+                    aria-label='online'
+                    name='online'
+                    value={data.online}
+                    onChange={(e) => handleOnChange(e)}
+                  >
                     <FormControlLabel value={'true'} control={<Radio />} label='Online' />
                     <FormControlLabel value={'false'} control={<Radio />} label='Offline' />
                   </RadioGroup>
                 </FormControl>
-                {isOnline ?
+                {isOnline ? (
                   <TextField
                     className={classes.textField}
                     label='Link'
@@ -236,9 +244,9 @@ export default function AddClass() {
                     helperText={error.link.message}
                     required
                   ></TextField>
-                  :
+                ) : (
                   <></>
-                }
+                )}
                 <TextField
                   className={classes.textField}
                   label='Price'
@@ -250,7 +258,7 @@ export default function AddClass() {
                   helperText={error.price.message}
                   thousandSeparator
                   isNumericString
-                  prefix="Rp."
+                  prefix='Rp.'
                 ></TextField>
                 <FormControl className={classes.textField} fullWidth required>
                   <InputLabel id='status-label'>Status</InputLabel>
@@ -264,11 +272,15 @@ export default function AddClass() {
                     helperText={error.status.message}
                     defaultValue='Active'
                   >
-                    <MenuItem value={'Active'} defaultChecked>Active</MenuItem>
+                    <MenuItem value={'Active'} defaultChecked>
+                      Active
+                    </MenuItem>
                     <MenuItem value={'Inactive'}>Inactive</MenuItem>
                   </Select>
                 </FormControl>
-                <InputLabel id='card-label' className={classes.textFieldTitle}>Card Picture *</InputLabel>
+                <InputLabel id='card-label' className={classes.textFieldTitle}>
+                  Card Picture *
+                </InputLabel>
                 <TextField
                   labelId='card-label'
                   className={classes.textField}
@@ -281,7 +293,9 @@ export default function AddClass() {
                   helperText={error.cardPictureUrl.message}
                   required
                 ></TextField>
-                <InputLabel id='banner-label' className={classes.textFieldTitle}>Banner Picture *</InputLabel>
+                <InputLabel id='banner-label' className={classes.textFieldTitle}>
+                  Banner Picture *
+                </InputLabel>
                 <TextField
                   labelId='banner-label'
                   className={classes.textField}
@@ -308,6 +322,6 @@ export default function AddClass() {
           </Grid>
         </Grid>
       </main>
-    </div >
+    </div>
   );
 }

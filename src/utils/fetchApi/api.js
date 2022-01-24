@@ -7,7 +7,7 @@ const baseApi = axios.create({
   headers: {
     post: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${parseCookies()['token']}`,
+      Authorization: `Bearer ${parseCookies()['token']}`,
     },
   },
 });

@@ -56,7 +56,7 @@ export default function ClassesSuperAdmin() {
 
       <main className={styles.main}>
         <Grid container spacing={2} m={2}>
-          <Grid item xs={3} >
+          <Grid item xs={3}>
             <MenuBar selected={'Classes'} />
           </Grid>
           <Grid item xs={9}>

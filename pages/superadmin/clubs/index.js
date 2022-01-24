@@ -55,7 +55,7 @@ export default function ClubsSuperAdmin() {
 
       <main className={classes.main}>
         <Grid container spacing={2} m={2}>
-          <Grid item xs={3} >
+          <Grid item xs={3}>
             <MenuBar selected={'Clubs'} />
           </Grid>
           <Grid item xs={9}>

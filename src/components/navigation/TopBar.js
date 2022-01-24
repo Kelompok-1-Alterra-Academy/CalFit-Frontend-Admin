@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Box, Button, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import useStyles from './TopBarStyles';
-import jwtDecode from "../../../src/utils/jwtDecode/jwtDecode";
+import jwtDecode from '../../../src/utils/jwtDecode/jwtDecode';
 
 export const TopBar = () => {
   const classes = useStyles();
@@ -24,13 +24,7 @@ export const TopBar = () => {
         </Link>
         <Link href='/superadmin/profile'>
           <div className={classes.userInfo}>
-            <Image
-              src='/dummy.png'
-              alt='Profile Picture'
-              width={30}
-              height={30}
-              className={classes.profilePicture}
-            />
+            <Image src='/dummy.png' alt='Profile Picture' width={30} height={30} className={classes.profilePicture} />
             <Typography className={classes.pageTitle}>{username}</Typography>
           </div>
         </Link>

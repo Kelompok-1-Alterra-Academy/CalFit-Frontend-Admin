@@ -1,5 +1,5 @@
-import { baseApi } from "./api";
-import { parseCookies } from "nookies";
+import { baseApi } from './api';
+import { parseCookies } from 'nookies';
 
 export async function superadminLogin(setLoadingState, setAlert, { username, password }) {
   setLoadingState(true);
@@ -12,23 +12,24 @@ export async function superadminLogin(setLoadingState, setAlert, { username, pas
       return res;
     })
     .catch((err) => {
-      console.log(err)
+      console.log(err);
       setAlert({
         status: true,
         message: err?.data?.data?.message,
       });
       return err?.data?.data;
-    }).finally(() => {
+    })
+    .finally(() => {
       setLoadingState(false);
     });
 }
 
 export async function superadminUpdatePassword(setLoadingState, setAlert, { username, password, newPassword }) {
-  console.log("parseCookies", parseCookies()['token']);
+  console.log('parseCookies', parseCookies()['token']);
   // setLoadingState(true);
   // const data = { username, password, newPassword };
   // // console.log(data)
-  // // return 
+  // // return
   // const fetchUpdatePassword = await baseApi
   //   .put(`/superadmin`, data)
   //   .then((res) => {
@@ -50,18 +51,17 @@ export async function superadminUpdatePassword(setLoadingState, setAlert, { user
   setLoadingState(true);
   const data = { username, password, newPassword };
   return fetch(`${process.env.NEXT_PUBLIC_SERVER_API_URL}superadmin`, {
-    method: "PUT",
+    method: 'PUT',
     withCredentials: true,
-    credentials: "include",
-    connection: "keep-alive",
+    credentials: 'include',
+    connection: 'keep-alive',
     headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${parseCookies()['token']}`,
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${parseCookies()['token']}`,
     },
     body: JSON.stringify(data),
-  })
-    .then(async (res) => {
-      setLoadingState(false);
-      return await res.json();
-    });
+  }).then(async (res) => {
+    setLoadingState(false);
+    return await res.json();
+  });
 }
