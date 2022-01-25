@@ -1,10 +1,6 @@
-import { baseApi } from "./api";
+import { baseApi } from './api';
 
-export const getAllClasses = async (
-  setLoadingState,
-  setData,
-  { limit, page }
-) => {
+export const getAllClasses = async (setLoadingState, setData, { limit, page }) => {
   const url = limit ? `/classes?limit=${limit}&page=${page}` : `/classes`;
   setLoadingState(true);
   return baseApi
@@ -48,7 +44,7 @@ export const createClass = async (setAlert, data, clubId) => {
 };
 
 export const updateClass = async (setAlert, data, clubId, classId) => {
-  console.log("data", data);
+  console.log('data', data);
   return baseApi
     .put(`/gyms/${clubId}/classes/${classId}`, data)
     .then((res) => {

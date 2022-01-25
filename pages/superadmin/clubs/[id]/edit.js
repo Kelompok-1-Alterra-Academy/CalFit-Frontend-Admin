@@ -51,7 +51,7 @@ export default function UpdateClub() {
         window.location.reload();
       } else localStorage.removeItem('firstLoad');
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (router.query.id) {
@@ -84,24 +84,24 @@ export default function UpdateClub() {
         telephoneValidation(e.target.value)
           ? setError({ ...error, telephone: { status: false, message: '' } })
           : setError({
-            ...error,
-            telephone: {
-              status: true,
-              message: 'telephone must be at least 10 characters long and contain only numbers',
-            },
-          });
+              ...error,
+              telephone: {
+                status: true,
+                message: 'telephone must be at least 10 characters long and contain only numbers',
+              },
+            });
         break;
       case 'postalCode':
         setData({ ...data, postalCode: e.target.value });
         postalCodeValidation(e.target.value)
           ? setError({ ...error, postalCode: { status: false, message: '' } })
           : setError({
-            ...error,
-            postalCode: {
-              status: true,
-              message: 'postal code must be 5 characters long and contain only numbers',
-            },
-          });
+              ...error,
+              postalCode: {
+                status: true,
+                message: 'postal code must be 5 characters long and contain only numbers',
+              },
+            });
       default:
         if (e.target.value === '') {
           setError({ ...error, [e.target.name]: { status: false, message: 'please fill in this field' } });
@@ -167,7 +167,7 @@ export default function UpdateClub() {
 
       <main className={classes.main}>
         <Grid container spacing={2} m={2}>
-          <Grid item xs={3} >
+          <Grid item xs={3}>
             <MenuBar selected={'Clubs'} />
           </Grid>
           <Grid item xs={9}>

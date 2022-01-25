@@ -1,12 +1,20 @@
 /* eslint-disable @next/next/link-passhref */
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Box, Button, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import useStyles from './TopBarStyles';
+import jwtDecode from '../../../src/utils/jwtDecode/jwtDecode';
 
 export const TopBar = () => {
   const classes = useStyles();
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    const { Email: email } = jwtDecode();
+    setUsername(email);
+  }, []);
 
   return (
     <Box className={classes.root}>
@@ -16,14 +24,8 @@ export const TopBar = () => {
         </Link>
         <Link href='/superadmin/profile'>
           <div className={classes.userInfo}>
-            <Image
-              src='/dummy-pp.png'
-              alt='Profile Picture'
-              width={30}
-              height={30}
-              className={classes.profilePicture}
-            />
-            <Typography className={classes.pageTitle}>Superadmin</Typography>
+            <Image src='/dummy.png' alt='Profile Picture' width={30} height={30} className={classes.profilePicture} />
+            <Typography className={classes.pageTitle}>{username}</Typography>
           </div>
         </Link>
       </Box>

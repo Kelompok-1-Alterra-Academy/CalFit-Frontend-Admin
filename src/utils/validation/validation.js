@@ -16,4 +16,4 @@ export const passwordValidation = (password) => {
 export const urlValidation = (url) => {
   const urlValidation = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
   return urlValidation.test(url);
-}
+};

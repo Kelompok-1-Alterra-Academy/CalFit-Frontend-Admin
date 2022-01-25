@@ -23,8 +23,6 @@ export default function ClassesSuperAdmin() {
     getAllClasses(setLoading, setClassesList, { limit: 1000, page: 1 });
   }, []);
 
-  console.log(classesList);
-
   useEffect(() => {
     classesList?.map((classItem) => {
       classItem.type = classItem.online ? 'Online' : 'Offline';
@@ -53,7 +51,7 @@ export default function ClassesSuperAdmin() {
 
       <main className={styles.main}>
         <Grid container spacing={2} m={2}>
-          <Grid item xs={3} >
+          <Grid item xs={3}>
             <MenuBar selected={'Classes'} />
           </Grid>
           <Grid item xs={9}>
@@ -75,7 +73,8 @@ export default function ClassesSuperAdmin() {
                   icon: tableIcons.Edit,
                   tooltip: 'Edit Class',
                   // onClick: (event, rowData) => router.push(`/superadmin/classes/edit/${rowData.id}`),
-                  onClick: (event, rowData) => router.push(`/superadmin/clubs/${rowData.gymID}/classes/${rowData.id}/edit`),
+                  onClick: (event, rowData) =>
+                    router.push(`/superadmin/clubs/${rowData.gymID}/classes/${rowData.id}/edit`),
                 },
                 (rowData) => ({
                   icon: tableIcons.Delete,
