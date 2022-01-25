@@ -23,4 +23,13 @@ export const useStyles = makeStyles((theme) => ({
     width: '75%',
     maxWidth: '75%',
   },
+  // accountCard: {
+  loginForm: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  textField: {
+    margin: '10px',
+  },
 }));

@@ -51,9 +51,9 @@ export default function AccountSuperAdmin() {
           newPassword: passwordValidation(e.target.value)
             ? { status: false, message: '' }
             : {
-                status: true,
-                message: 'password must be at least 6 char contain number, lowercase and uppercase letter',
-              },
+              status: true,
+              message: 'password must be at least 6 char contain number, lowercase and uppercase letter',
+            },
         });
         break;
       case 'confirmPassword':
@@ -96,7 +96,7 @@ export default function AccountSuperAdmin() {
     }
   };
 
-  const handleDelete = async (id) => {};
+  const handleDelete = async (id) => { };
 
   return (
     <div className={classes.root}>
@@ -114,12 +114,33 @@ export default function AccountSuperAdmin() {
             <MenuBar selected={'Account'} />
           </Grid>
           <Grid container item xs={9} spacing={2}>
-            <Grid item xs={6}>
-              <Container className={classes.accountCard}>
-                <Typography variant='h4' gutterBottom>
+            {/* <Grid item xs={6}> */}
+            <Grid item xs={9}>
+              <Container className={classes.accountCard}
+                style={{
+                  padding: '20px',
+                  backgroundColor: '#fff',
+                  borderRadius: '14px',
+                  height: '390px',
+                }}
+              >
+                <Typography variant='h4' gutterBottom
+                  style={{
+                    fontSize: '24px',
+                    fontWeight: '600',
+                    textAlign: 'left',
+                  }}
+                >
                   Update Password
                 </Typography>
-                <Typography variant='h4' gutterBottom>
+                <Typography variant='h4' gutterBottom
+                  style={{
+                    fontSize: '14px',
+                    fontWeight: '500',
+                    textAlign: 'left',
+                    marginTop: '10px',
+                  }}
+                >
                   Ensure your account is using a long and random password to stay secure.
                 </Typography>
                 <Box
@@ -141,6 +162,7 @@ export default function AccountSuperAdmin() {
                     onChange={(e) => handleOnChange(e)}
                     error={error.currentPassword.status}
                     helperText={error.currentPassword.message}
+                    fullWidth
                     required
                   ></TextField>
                   <TextField
@@ -153,6 +175,7 @@ export default function AccountSuperAdmin() {
                     onChange={(e) => handleOnChange(e)}
                     error={error.newPassword.status}
                     helperText={error.newPassword.message}
+                    fullWidth
                     required
                   ></TextField>
                   <TextField
@@ -165,6 +188,7 @@ export default function AccountSuperAdmin() {
                     onChange={(e) => handleOnChange(e)}
                     error={error.confirmPassword.status}
                     helperText={error.confirmPassword.message}
+                    fullWidth
                     required
                   ></TextField>
                   {loading ? (
@@ -205,6 +229,6 @@ export default function AccountSuperAdmin() {
           </Grid>
         </Grid>
       </main>
-    </div>
+    </div >
   );
 }
