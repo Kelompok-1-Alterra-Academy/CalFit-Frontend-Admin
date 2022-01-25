@@ -23,7 +23,23 @@ export const useStyles = makeStyles((theme) => ({
     width: '75%',
     maxWidth: '75%',
   },
-  // accountCard: {
+  accountCard: {
+    padding: '20px',
+    backgroundColor: '#fff',
+    borderRadius: '14px',
+    height: '390px',
+  },
+  accountCardTitle: {
+    fontSize: '24px',
+    fontWeight: '600',
+    textAlign: 'left',
+  },
+  accountCardDescription: {
+    fontSize: '14px',
+    fontWeight: '500',
+    textAlign: 'left',
+    marginTop: '10px',
+  },
   loginForm: {
     display: 'flex',
     flexDirection: 'column',

@@ -116,31 +116,11 @@ export default function AccountSuperAdmin() {
           <Grid container item xs={9} spacing={2}>
             {/* <Grid item xs={6}> */}
             <Grid item xs={9}>
-              <Container className={classes.accountCard}
-                style={{
-                  padding: '20px',
-                  backgroundColor: '#fff',
-                  borderRadius: '14px',
-                  height: '390px',
-                }}
-              >
-                <Typography variant='h4' gutterBottom
-                  style={{
-                    fontSize: '24px',
-                    fontWeight: '600',
-                    textAlign: 'left',
-                  }}
-                >
+              <Container className={classes.accountCard}>
+                <Typography variant='h4' gutterBottom className={classes.accountCardTitle}>
                   Update Password
                 </Typography>
-                <Typography variant='h4' gutterBottom
-                  style={{
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    textAlign: 'left',
-                    marginTop: '10px',
-                  }}
-                >
+                <Typography variant='h4' gutterBottom className={classes.accountCardDescription}>
                   Ensure your account is using a long and random password to stay secure.
                 </Typography>
                 <Box
