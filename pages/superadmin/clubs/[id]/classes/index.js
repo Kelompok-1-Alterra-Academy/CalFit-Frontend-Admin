@@ -67,7 +67,6 @@ export default function ClassesSuperAdmin() {
               columns={[
                 { title: 'Id', field: 'id' },
                 { title: 'Name', field: 'name' },
-                { title: 'Gym Id', field: 'gymID', width: '10%' },
                 { title: 'Type', field: 'type', width: '10%' },
                 { title: 'Category', field: 'category' },
                 { title: 'Status', field: 'status' },
@@ -77,7 +76,8 @@ export default function ClassesSuperAdmin() {
                 {
                   icon: tableIcons.Edit,
                   tooltip: 'Edit Class',
-                  onClick: (event, rowData) => router.push(`/superadmin/classes/${rowData.id}/edit`),
+                  // onClick: (event, rowData) => router.push(`/superadmin/classes/${rowData.id}/edit`),
+                  onClick: (event, rowData) => router.push(`/superadmin/clubs/${router.query.id}/classes/${rowData.id}/edit`),
                 },
                 (rowData) => ({
                   icon: tableIcons.Delete,

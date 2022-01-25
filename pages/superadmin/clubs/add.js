@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import { Box, Button, Container, TextField, Typography } from '@mui/material';
+import { Box, Button, Container, Grid, TextField, Typography } from '@mui/material';
 import { useStyles } from '../../../styles/clubs/Add.style';
 import { TopBar } from '../../../src/components/navigation/TopBar';
 import { MenuBar } from '../../../src/components/navigation/MenuBar';
@@ -43,6 +43,15 @@ export default function AddClub() {
     message: '',
   });
 
+  useEffect(() => {
+    if (window.localStorage) {
+      if (!localStorage.getItem('firstLoad')) {
+        localStorage.setItem('firstLoad', true);
+        window.location.reload();
+      } else localStorage.removeItem('firstLoad');
+    }
+  }, [])
+
   const handleOnChange = (e) => {
     switch (e.target.name) {
       case 'operationalAdminId':
@@ -53,24 +62,24 @@ export default function AddClub() {
         telephoneValidation(e.target.value)
           ? setError({ ...error, telephone: { status: false, message: '' } })
           : setError({
-              ...error,
-              telephone: {
-                status: true,
-                message: 'telephone must be at least 10 characters long and contain only numbers',
-              },
-            });
+            ...error,
+            telephone: {
+              status: true,
+              message: 'telephone must be at least 10 characters long and contain only numbers',
+            },
+          });
         break;
       case 'postalCode':
         setData({ ...data, postalCode: e.target.value });
         postalCodeValidation(e.target.value)
           ? setError({ ...error, postalCode: { status: false, message: '' } })
           : setError({
-              ...error,
-              postalCode: {
-                status: true,
-                message: 'postal code must be 5 characters long and contain only numbers',
-              },
-            });
+            ...error,
+            postalCode: {
+              status: true,
+              message: 'postal code must be 5 characters long and contain only numbers',
+            },
+          });
       default:
         setData({ ...data, [e.target.name]: e.target.value });
     }
@@ -132,120 +141,127 @@ export default function AddClub() {
       <TopBar />
 
       <main className={classes.main}>
-        <MenuBar selected={'Clubs'} />
-        <Container className={classes.form}>
-          <Box
-            component='form'
-            className={classes.loginForm}
-            onSubmit={(e) => handleOnSubmit(e)}
-            style={{
-              opacity: loading ? 0.3 : 1,
-              pointerEvents: loading ? 'none' : 'all',
-            }}
-          >
-            <TextField
-              className={classes.textField}
-              label='Name'
-              name='name'
-              path='text'
-              value={data.name}
-              onChange={(e) => handleOnChange(e)}
-              error={error.name.status}
-              helperText={error.name.message}
-            ></TextField>
-            <TextField
-              className={classes.textField}
-              label='Admin Id'
-              name='operationalAdminId'
-              path='text'
-              type='number'
-              value={data.operationalAdminId}
-              onChange={(e) => handleOnChange(e)}
-              error={error.operationalAdminId.status}
-              helperText={error.operationalAdminId.message}
-            ></TextField>
-            <TextField
-              className={classes.textField}
-              label='Description'
-              multiline
-              minRows={5}
-              name='description'
-              path='text'
-              value={data.description}
-              onChange={(e) => handleOnChange(e)}
-              error={error.description.status}
-              helperText={error.description.message}
-            ></TextField>
-            <TextField
-              className={classes.textField}
-              label='Telephone'
-              name='telephone'
-              value={data.telephone}
-              onChange={(e) => handleOnChange(e)}
-              error={error.telephone.status}
-              helperText={error.telephone.message}
-            ></TextField>
-            <TextField
-              className={classes.textField}
-              multiline
-              minRows={3}
-              label='Address'
-              name='address'
-              path='text'
-              value={data.address}
-              onChange={(e) => handleOnChange(e)}
-              error={error.address.status}
-              helperText={error.address.message}
-            ></TextField>
-            <TextField
-              className={classes.textField}
-              label='District'
-              name='district'
-              value={data.district}
-              onChange={(e) => handleOnChange(e)}
-              error={error.district.status}
-              helperText={error.district.message}
-            ></TextField>
-            <TextField
-              className={classes.textField}
-              label='City'
-              name='city'
-              value={data.city}
-              onChange={(e) => handleOnChange(e)}
-              error={error.city.status}
-              helperText={error.city.message}
-            ></TextField>
-            <TextField
-              className={classes.textField}
-              label='Postal Code'
-              name='postalCode'
-              value={data.postalCode}
-              onChange={(e) => handleOnChange(e)}
-              error={error.postalCode.status}
-              helperText={error.postalCode.message}
-            ></TextField>
-            <Typography className={classes.textFieldTitle}>Picture</Typography>
-            <TextField
-              className={classes.textField}
-              style={{ marginTop: 0 }}
-              placeholder='Picture'
-              type='file'
-              name='picture'
-              onChange={(e) => handleChangePicture(e)}
-              error={error.picture.status}
-              helperText={error.picture.message}
-            ></TextField>
-            {loading ? (
-              <Button type='submit' variant='contained' className={classes.button} disabled>
-                SUBMIT
-              </Button>
-            ) : (
-              <Button type='submit' variant='contained' className={classes.button}>
-                SUBMIT
-              </Button>
-            )}
-          </Box>
-        </Container>
+        <Grid container spacing={2} m={2}>
+          <Grid item xs={3} >
+            <MenuBar selected={'Clubs'} />
+          </Grid>
+          <Grid item xs={9}>
+            <Container className={classes.form}>
+              <Box
+                component='form'
+                className={classes.loginForm}
+                onSubmit={(e) => handleOnSubmit(e)}
+                style={{
+                  opacity: loading ? 0.3 : 1,
+                  pointerEvents: loading ? 'none' : 'all',
+                }}
+              >
+                <Typography variant='h3' align='center' className={classes.formTitle}>Add New Club</Typography>
+                <TextField
+                  className={classes.textField}
+                  label='Name'
+                  name='name'
+                  path='text'
+                  value={data.name}
+                  onChange={(e) => handleOnChange(e)}
+                  error={error.name.status}
+                  helperText={error.name.message}
+                ></TextField>
+                <TextField
+                  className={classes.textField}
+                  label='Admin Id'
+                  name='operationalAdminId'
+                  path='text'
+                  type='number'
+                  value={data.operationalAdminId}
+                  onChange={(e) => handleOnChange(e)}
+                  error={error.operationalAdminId.status}
+                  helperText={error.operationalAdminId.message}
+                ></TextField>
+                <TextField
+                  className={classes.textField}
+                  label='Description'
+                  multiline
+                  minRows={5}
+                  name='description'
+                  path='text'
+                  value={data.description}
+                  onChange={(e) => handleOnChange(e)}
+                  error={error.description.status}
+                  helperText={error.description.message}
+                ></TextField>
+                <TextField
+                  className={classes.textField}
+                  label='Telephone'
+                  name='telephone'
+                  value={data.telephone}
+                  onChange={(e) => handleOnChange(e)}
+                  error={error.telephone.status}
+                  helperText={error.telephone.message}
+                ></TextField>
+                <TextField
+                  className={classes.textField}
+                  multiline
+                  minRows={3}
+                  label='Address'
+                  name='address'
+                  path='text'
+                  value={data.address}
+                  onChange={(e) => handleOnChange(e)}
+                  error={error.address.status}
+                  helperText={error.address.message}
+                ></TextField>
+                <TextField
+                  className={classes.textField}
+                  label='District'
+                  name='district'
+                  value={data.district}
+                  onChange={(e) => handleOnChange(e)}
+                  error={error.district.status}
+                  helperText={error.district.message}
+                ></TextField>
+                <TextField
+                  className={classes.textField}
+                  label='City'
+                  name='city'
+                  value={data.city}
+                  onChange={(e) => handleOnChange(e)}
+                  error={error.city.status}
+                  helperText={error.city.message}
+                ></TextField>
+                <TextField
+                  className={classes.textField}
+                  label='Postal Code'
+                  name='postalCode'
+                  value={data.postalCode}
+                  onChange={(e) => handleOnChange(e)}
+                  error={error.postalCode.status}
+                  helperText={error.postalCode.message}
+                ></TextField>
+                <Typography className={classes.textFieldTitle}>Picture</Typography>
+                <TextField
+                  className={classes.textField}
+                  style={{ marginTop: 0 }}
+                  placeholder='Picture'
+                  type='file'
+                  name='picture'
+                  onChange={(e) => handleChangePicture(e)}
+                  error={error.picture.status}
+                  helperText={error.picture.message}
+                ></TextField>
+                {loading ? (
+                  <Button type='submit' variant='contained' className={classes.button} disabled>
+                    SUBMIT
+                  </Button>
+                ) : (
+                  <Button type='submit' variant='contained' className={classes.button}>
+                    SUBMIT
+                  </Button>
+                )}
+              </Box>
+            </Container>
+          </Grid>
+        </Grid>
       </main>
     </div>
   );

@@ -13,6 +13,18 @@ export const getAllClasses = async (setLoadingState, setData, { limit, page }) =
     });
 };
 
+export const getClassesCount = async (setLoadingState, setData) => {
+  setLoadingState(true);
+  return baseApi
+    .get("/classes/count")
+    .then((res) => {
+      setData(res.data.data ?? []);
+    })
+    .finally(() => {
+      setLoadingState(false);
+    });
+};
+
 export const getClassById = async (setLoadingState, setData, id) => {
   setLoadingState(true);
   return baseApi
