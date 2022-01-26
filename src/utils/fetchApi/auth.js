@@ -1,5 +1,5 @@
 import { baseApi } from './api';
-import { parseCookies } from 'nookies';
+import { destroyCookie, parseCookies } from 'nookies';
 
 export async function superadminLogin(setLoadingState, setAlert, { username, password }) {
   setLoadingState(true);
@@ -25,18 +25,14 @@ export async function superadminLogin(setLoadingState, setAlert, { username, pas
 }
 
 export async function superadminLogout(setAlert) {
-  return baseApi
-    .delete(`/superadmin/logout`)
-    .then((res) => {
-      return res;
-    })
-    .catch((err) => {
-      setAlert({
-        status: true,
-        message: err?.data?.data?.message,
-      });
-      return err?.data?.data;
+  const res = destroyCookie(null, 'token');
+  if (res) {
+    setAlert({
+      status: true,
+      message: 'Logout Successfully',
     });
+    return true;
+  }
 }
 
 export async function superadminUpdatePassword(setLoadingState, setAlert, { username, password, newPassword }) {

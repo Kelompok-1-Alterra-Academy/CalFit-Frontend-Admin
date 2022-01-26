@@ -54,12 +54,12 @@ export default function Login() {
         passwordValidation(e.target.value)
           ? setError({ ...error, password: { status: false, message: '' } })
           : setError({
-              ...error,
-              password: {
-                status: true,
-                message: 'password must be at least 6 char contain number, lowercase and uppercase letter',
-              },
-            });
+            ...error,
+            password: {
+              status: true,
+              message: 'password must be at least 6 char contain number, lowercase and uppercase letter',
+            },
+          });
     }
   };
 
@@ -75,7 +75,7 @@ export default function Login() {
       setCookie(null, 'token', res.data.data.token);
       switch (res.status) {
         case 200:
-          router.push('/superadmin/clubs');
+          router.push('/superadmin/dashboard');
           break;
         default:
           break;
