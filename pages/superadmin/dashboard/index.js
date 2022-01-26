@@ -67,12 +67,19 @@ export default function ClubsSuperAdmin() {
   useEffect(() => {
     const { Superadmin: superadmin } = jwtDecode();
     if (!superadmin) router.push('/superadmin/login');
-    else {
-      setIsAuthenticated(true);
-      getGymsCount(setLoading, setClubsCount);
-      getClassesCount(setLoading, setClassesCount);
+    else setIsAuthenticated(true);
+    if (window.localStorage) {
+      if (!localStorage.getItem('firstLoad')) {
+        localStorage.setItem('firstLoad', true);
+        window.location.reload();
+      } else localStorage.removeItem('firstLoad');
     }
   }, []);
+
+  useEffect(() => {
+    getGymsCount(setLoading, setClubsCount);
+    getClassesCount(setLoading, setClassesCount);
+  }, [isAuthenticated]);
 
   return (
     isAuthenticated && (
