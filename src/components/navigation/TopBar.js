@@ -33,7 +33,7 @@ export const TopBar = () => {
     if (res) {
       router.push('/superadmin/login');
     }
-  }
+  };
 
   useEffect(() => {
     const { Email: email } = jwtDecode();
@@ -51,17 +51,17 @@ export const TopBar = () => {
             <Image src='/dummy.png' alt='Profile Picture' width={30} height={30} className={classes.profilePicture} />
             <Typography className={classes.pageTitle}>{username}</Typography>
             <IconButton
-              id="basic-button"
-              size="small"
+              id='basic-button'
+              size='small'
               aria-controls={open ? 'basic-menu' : undefined}
-              aria-haspopup="true"
+              aria-haspopup='true'
               aria-expanded={open ? 'true' : undefined}
               onClick={handleClick}
             >
               <ArrowDropDownIcon />
             </IconButton>
             <Menu
-              id="basic-menu"
+              id='basic-menu'
               anchorEl={anchorEl}
               open={open}
               onClose={handleClose}
@@ -69,18 +69,22 @@ export const TopBar = () => {
                 'aria-labelledby': 'basic-button',
               }}
             >
-              <MenuItem onClick={(e) => {
-                e.preventDefault();
-                router.push('/superadmin/profile');
-                handleClose();
-              }}>Profile</MenuItem>
+              <MenuItem
+                onClick={(e) => {
+                  e.preventDefault();
+                  router.push('/superadmin/profile');
+                  handleClose();
+                }}
+              >
+                Profile
+              </MenuItem>
               <MenuItem onClick={handleClose}>Logout</MenuItem>
             </Menu>
           </div>
         </Box>
         {/* </Tooltip> */}
         <Menu
-          id="basic-menu"
+          id='basic-menu'
           anchorEl={anchorEl}
           open={open}
           onClose={handleClose}
@@ -88,11 +92,15 @@ export const TopBar = () => {
             'aria-labelledby': 'basic-button',
           }}
         >
-          <MenuItem onClick={(e) => {
-            e.preventDefault();
-            router.push('/superadmin/profile');
-            handleClose();
-          }}>Profile</MenuItem>
+          <MenuItem
+            onClick={(e) => {
+              e.preventDefault();
+              router.push('/superadmin/profile');
+              handleClose();
+            }}
+          >
+            Profile
+          </MenuItem>
           <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>
       </Box>

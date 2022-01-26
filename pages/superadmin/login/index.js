@@ -60,12 +60,12 @@ export default function Login() {
         passwordValidation(e.target.value)
           ? setError({ ...error, password: { status: false, message: '' } })
           : setError({
-            ...error,
-            password: {
-              status: true,
-              message: 'password must be at least 6 char contain number, lowercase and uppercase letter',
-            },
-          });
+              ...error,
+              password: {
+                status: true,
+                message: 'password must be at least 6 char contain number, lowercase and uppercase letter',
+              },
+            });
     }
   };
 

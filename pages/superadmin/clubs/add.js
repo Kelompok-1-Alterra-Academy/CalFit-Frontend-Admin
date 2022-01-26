@@ -55,7 +55,7 @@ export default function AddClub() {
         window.location.reload();
       } else localStorage.removeItem('firstLoad');
     }
-  }, [])
+  }, []);
 
   const handleOnChange = (e) => {
     switch (e.target.name) {
@@ -67,24 +67,24 @@ export default function AddClub() {
         telephoneValidation(e.target.value)
           ? setError({ ...error, telephone: { status: false, message: '' } })
           : setError({
-            ...error,
-            telephone: {
-              status: true,
-              message: 'telephone must be at least 10 characters long and contain only numbers',
-            },
-          });
+              ...error,
+              telephone: {
+                status: true,
+                message: 'telephone must be at least 10 characters long and contain only numbers',
+              },
+            });
         break;
       case 'postalCode':
         setData({ ...data, postalCode: e.target.value });
         postalCodeValidation(e.target.value)
           ? setError({ ...error, postalCode: { status: false, message: '' } })
           : setError({
-            ...error,
-            postalCode: {
-              status: true,
-              message: 'postal code must be 5 characters long and contain only numbers',
-            },
-          });
+              ...error,
+              postalCode: {
+                status: true,
+                message: 'postal code must be 5 characters long and contain only numbers',
+              },
+            });
       default:
         setData({ ...data, [e.target.name]: e.target.value });
     }
@@ -148,7 +148,7 @@ export default function AddClub() {
 
         <main className={classes.main}>
           <Grid container spacing={2} m={2}>
-            <Grid item xs={3} >
+            <Grid item xs={3}>
               <MenuBar selected={'Clubs'} />
             </Grid>
             <Grid item xs={9}>
@@ -162,7 +162,9 @@ export default function AddClub() {
                     pointerEvents: loading ? 'none' : 'all',
                   }}
                 >
-                  <Typography variant='h3' align='center' className={classes.formTitle}>Add New Club</Typography>
+                  <Typography variant='h3' align='center' className={classes.formTitle}>
+                    Add New Club
+                  </Typography>
                   <TextField
                     className={classes.textField}
                     label='Name'

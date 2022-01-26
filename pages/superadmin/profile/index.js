@@ -54,9 +54,9 @@ export default function AccountSuperAdmin() {
           newPassword: passwordValidation(e.target.value)
             ? { status: false, message: '' }
             : {
-              status: true,
-              message: 'password must be at least 6 char contain number, lowercase and uppercase letter',
-            },
+                status: true,
+                message: 'password must be at least 6 char contain number, lowercase and uppercase letter',
+              },
         });
         break;
       case 'confirmPassword':
@@ -211,7 +211,7 @@ export default function AccountSuperAdmin() {
             </Grid>
           </Grid>
         </main>
-      </div >
+      </div>
     )
   );
 }
