@@ -65,3 +65,23 @@ export async function superadminUpdatePassword(setLoadingState, setAlert, { user
     return await res.json();
   });
 }
+
+export async function opadminUpdatePassword(setLoadingState, setAlert, { username, password, changedPassword }) {
+  console.log('parseCookies', parseCookies()['token']);
+  setLoadingState(true);
+  const data = { username, password, changedPassword };
+  return fetch(`${process.env.NEXT_PUBLIC_SERVER_API_URL}admin`, {
+    method: 'PUT',
+    withCredentials: true,
+    credentials: 'include',
+    connection: 'keep-alive',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${parseCookies()['token']}`,
+    },
+    body: JSON.stringify(data),
+  }).then(async (res) => {
+    setLoadingState(false);
+    return await res.json();
+  });
+}
