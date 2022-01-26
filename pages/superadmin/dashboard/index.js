@@ -9,6 +9,7 @@ import { TopBar } from '../../../src/components/navigation/TopBar';
 import { MenuBar } from '../../../src/components/navigation/MenuBar';
 import { getGymsCount } from '../../../src/utils/fetchApi/clubs';
 import { getClassesCount } from '../../../src/utils/fetchApi/classes';
+import jwtDecode from '../../../src/utils/jwtDecode/jwtDecode';
 
 const data = [
   {
@@ -56,15 +57,17 @@ const data = [
 ];
 
 export default function ClubsSuperAdmin() {
-  const [clubsCount, setClubsCount] = useState(0);
-  const [classesCount, setClassesCount] = useState(1000000);
   const classes = useStyles();
   const router = useRouter();
+  const [clubsCount, setClubsCount] = useState(0);
+  const [classesCount, setClassesCount] = useState(0);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getGymsCount(setLoading, setClubsCount);
     getClassesCount(setLoading, setClassesCount);
+    const { Superadmin: superadmin } = jwtDecode();
+    if (!superadmin) router.push('/superadmin/login');
   }, []);
 
   return (

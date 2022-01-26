@@ -24,8 +24,22 @@ export async function superadminLogin(setLoadingState, setAlert, { username, pas
     });
 }
 
+export async function superadminLogout(setAlert) {
+  return baseApi
+    .delete(`/superadmin/logout`)
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      setAlert({
+        status: true,
+        message: err?.data?.data?.message,
+      });
+      return err?.data?.data;
+    });
+}
+
 export async function superadminUpdatePassword(setLoadingState, setAlert, { username, password, newPassword }) {
-  console.log('parseCookies', parseCookies()['token']);
   // setLoadingState(true);
   // const data = { username, password, newPassword };
   // // console.log(data)
