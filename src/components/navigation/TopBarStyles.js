@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'space-between',
     width: 'auto',
+    // marginRight: '20px',
   },
   profilePicture: {
     borderRadius: '50%',

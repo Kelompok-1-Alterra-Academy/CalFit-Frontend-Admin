@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import MaterialTable from 'material-table';
 import { Grid } from '@mui/material';
-import { useStyles } from '../../../styles/clubs/Index.style';
+import { useStyles } from '../../../styles/bookings/Index.style';
 import { TopBar } from '../../../src/components/navigation/TopBar';
 import { MenuBar } from '../../../src/components/navigation/MenuBar';
 import { tableIcons } from '../../../src/components/table/MaterialTable';
@@ -11,28 +11,22 @@ import { getAllGyms } from '../../../src/utils/fetchApi/clubs';
 import { deleteGym } from '../../../src/utils/fetchApi/clubs';
 import jwtDecode from '../../../src/utils/jwtDecode/jwtDecode';
 
-const setAddress = (address) => {
-  return `${address.address}, ${address.district}, ${address.city}`;
-};
-
-export default function ClubsSuperAdmin() {
+export default function BookingsSuperAdmin() {
   const classes = useStyles();
   const router = useRouter();
-  const [clubs, setClubs] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [alertClubs, setAlertClubs] = useState({
+  const [clubs, setBookings] = useState([]);
+  const [alertBookings, setAlertBookings] = useState({
     status: false,
     message: '',
   });
+  const [loading, setLoading] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const { Superadmin: superadmin } = jwtDecode();
     if (!superadmin) router.push('/superadmin/login');
-    else {
-      setIsAuthenticated(true);
-      getAllGyms(setLoading, setClubs, { limit: 1000, page: 1 });
-    }
+    else setIsAuthenticated(true);
+    getAllGyms(setLoading, setBookings, { limit: 1000, page: 1 });
   }, []);
 
   useEffect(() => {
@@ -42,9 +36,9 @@ export default function ClubsSuperAdmin() {
   }, [clubs]);
 
   const handleDelete = async (id) => {
-    const res = await deleteGym(setLoading, setAlertClubs, id);
+    const res = await deleteGym(setLoading, setAlertBookings, id);
     if (res.status === 202) {
-      setClubs(clubs.filter((club) => club.id !== id));
+      setBookings(clubs.filter((club) => club.id !== id));
       return true;
     }
     return false;
@@ -64,12 +58,12 @@ export default function ClubsSuperAdmin() {
         <main className={classes.main}>
           <Grid container spacing={2} m={2}>
             <Grid item xs={3}>
-              <MenuBar selected={'Clubs'} />
+              <MenuBar selected={'Bookings'} />
             </Grid>
             <Grid item xs={9}>
               <MaterialTable
                 className={classes.table}
-                title='Clubs'
+                title='Bookings'
                 icons={tableIcons}
                 columns={[
                   { title: 'Id', field: 'id', width: '10%' },
@@ -88,12 +82,6 @@ export default function ClubsSuperAdmin() {
                     icon: tableIcons.ListAlt,
                     tooltip: 'View Classes',
                     onClick: (event, rowData) => router.push(`/superadmin/clubs/${rowData.id}/classes`),
-                  },
-                  {
-                    icon: tableIcons.Booking,
-                    tooltip: 'View Bookings',
-                    // onClick: (event, rowData) => router.push(`/superadmin/clubs/${rowData.id}/classes`),
-                    onClick: (event, rowData) => router.push(`/superadmin/clubs/${rowData.id}/bookings`),
                   },
                   {
                     icon: tableIcons.Edit,

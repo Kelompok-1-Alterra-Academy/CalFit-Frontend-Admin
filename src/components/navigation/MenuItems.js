@@ -33,11 +33,11 @@ export const menuItems = [
   //   label: 'Videos',
   //   href: '/superadmin/videos',
   // },
-  {
-    icon: BookOnlineIcon,
-    label: 'Bookings',
-    href: '/superadmin/bookings',
-  },
+  // {
+  //   icon: BookOnlineIcon,
+  //   label: 'Bookings',
+  //   href: '/superadmin/bookings',
+  // },
   {
     icon: SupervisorAccountIcon,
     label: 'Admins',
