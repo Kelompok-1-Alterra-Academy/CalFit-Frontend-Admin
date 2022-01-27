@@ -1,0 +1,44 @@
+name: calfit_frontend
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-push-docker:
+    name: build-push-docker
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create env files and build docker
+        run: |
+          touch .env
+          echo NEXT_PUBLIC_CLOUDINARY_API_URL=${{secrets.NEXT_PUBLIC_CLOUDINARY_API_URL}} >> .env
+          echo secrets.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=${{secrets.secrets.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}} >> .env
+          echo secrets.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=${{secrets.secrets.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}} >> .env
+          echo NEXT_PUBLIC_SERVER_API_URL=${{secrets.NEXT_PUBLIC_SERVER_API_URL}} >> .env
+          docker build -t sultanfariz/calfit-frontend-admin:1.0.0 .
+      - name: connect registry docker hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: push docker
+        run: docker push sultanfariz/calfit-frontend-admin:1.0.0
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-push-docker
+    steps:
+      - name: Login to SSH and Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            docker rm -f calfit_frontend_user; \
+            docker rmi sultanfariz/calfit-frontend-admin:1.0.0; \
+            docker pull sultanfariz/calfit-frontend-admin:1.0.0; \
+            docker run -d -p 3000:3000 --name calfit_frontend_user sultanfariz/calfit-frontend-admin:1.0.0
