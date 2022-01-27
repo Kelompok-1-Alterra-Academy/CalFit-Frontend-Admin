@@ -7,7 +7,7 @@ export const useStyles = makeStyles((theme) => ({
     borderRadius: '14px',
     flexDirection: 'column',
     alignItems: 'start',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     height: 'auto',
     // marginRight: '20px',
     // marginLeft: '20px',

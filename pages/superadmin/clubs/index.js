@@ -90,6 +90,12 @@ export default function ClubsSuperAdmin() {
                     onClick: (event, rowData) => router.push(`/superadmin/clubs/${rowData.id}/classes`),
                   },
                   {
+                    icon: tableIcons.Booking,
+                    tooltip: 'View Bookings',
+                    // onClick: (event, rowData) => router.push(`/superadmin/clubs/${rowData.id}/classes`),
+                    onClick: (event, rowData) => router.push(`/superadmin/clubs/${rowData.id}/bookings`),
+                  },
+                  {
                     icon: tableIcons.Edit,
                     tooltip: 'Edit Club',
                     onClick: (event, rowData) => router.push(`/superadmin/clubs/${rowData.id}/edit`),
