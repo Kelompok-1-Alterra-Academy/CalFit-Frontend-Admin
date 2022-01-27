@@ -12,10 +12,10 @@ export const getAllGyms = async (setLoadingState, setData, { limit, page }) => {
     });
 };
 
-export const getGymById = async (setLoadingState, setData, id) => {
+export const getGymsCount = async (setLoadingState, setData) => {
   setLoadingState(true);
   return baseApi
-    .get(`/gyms/${id}`)
+    .get('/gyms/count')
     .then((res) => {
       setData(res.data.data ?? []);
     })

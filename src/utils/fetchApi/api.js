@@ -5,9 +5,9 @@ const baseApi = axios.create({
   baseURL: process.env.NEXT_PUBLIC_SERVER_API_URL,
   withCredentials: true,
   headers: {
+    Authorization: `Bearer ${parseCookies()['token']}`,
     post: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${parseCookies()['token']}`,
     },
   },
 });

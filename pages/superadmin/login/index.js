@@ -37,6 +37,12 @@ export default function Login() {
   });
 
   useEffect(() => {
+    if (window.localStorage) {
+      if (!localStorage.getItem('firstLoad')) {
+        localStorage.setItem('firstLoad', true);
+        window.location.reload();
+      } else localStorage.removeItem('firstLoad');
+    }
     const { Email: email } = jwtDecode();
     if (email) {
       router.push('/superadmin/dashboard');
@@ -72,10 +78,11 @@ export default function Login() {
       });
     } else {
       const res = await superadminLogin(setLoading, setAlert, data);
+      console.log(res);
       setCookie(null, 'token', res.data.data.token);
       switch (res.status) {
         case 200:
-          router.push('/superadmin/clubs');
+          router.push('/superadmin/dashboard');
           break;
         default:
           break;

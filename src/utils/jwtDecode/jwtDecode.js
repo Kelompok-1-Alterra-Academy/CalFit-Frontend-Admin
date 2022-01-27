@@ -8,7 +8,7 @@ export default function jwtDecode() {
       Email: '',
       Member: false,
       OperationalAdmin: false,
-      Superadmin: true,
+      Superadmin: false,
       exp: 0,
     };
   const decode = token.split('.')[1];

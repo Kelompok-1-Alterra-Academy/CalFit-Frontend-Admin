@@ -3,6 +3,7 @@ import ClassIcon from '@mui/icons-material/Class';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
+import BookOnlineIcon from '@mui/icons-material/BookOnline';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 
@@ -22,15 +23,20 @@ export const menuItems = [
     label: 'Classes',
     href: '/superadmin/classes',
   },
+  // {
+  //   icon: NewspaperIcon,
+  //   label: 'Newsletters',
+  //   href: '/superadmin/newsletters',
+  // },
+  // {
+  //   icon: OndemandVideoIcon,
+  //   label: 'Videos',
+  //   href: '/superadmin/videos',
+  // },
   {
-    icon: NewspaperIcon,
-    label: 'Newsletters',
-    href: '/superadmin/newsletters',
-  },
-  {
-    icon: OndemandVideoIcon,
-    label: 'Videos',
-    href: '/superadmin/videos',
+    icon: BookOnlineIcon,
+    label: 'Bookings',
+    href: '/superadmin/bookings',
   },
   {
     icon: SupervisorAccountIcon,
