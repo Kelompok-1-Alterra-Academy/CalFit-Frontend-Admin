@@ -25,10 +25,7 @@ export default function BookingsSuperAdmin() {
   useEffect(() => {
     const { Superadmin: superadmin } = jwtDecode();
     if (!superadmin) router.push('/superadmin/login');
-    else {
-      setIsAuthenticated(true);
-      // getAllGyms(setLoading, setBookings, { limit: 1000, page: 1 });
-    }
+    else setIsAuthenticated(true);
   }, []);
 
   useEffect(() => {
