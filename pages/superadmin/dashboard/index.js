@@ -10,6 +10,7 @@ import { MenuBar } from '../../../src/components/navigation/MenuBar';
 import { getGymsCount } from '../../../src/utils/fetchApi/clubs';
 import { getClassesCount } from '../../../src/utils/fetchApi/classes';
 import { getUsersCount } from '../../../src/utils/fetchApi/users';
+import { getBookingsCount } from '../../../src/utils/fetchApi/bookings';
 import jwtDecode from '../../../src/utils/jwtDecode/jwtDecode';
 
 const data = [
@@ -63,6 +64,7 @@ export default function ClubsSuperAdmin() {
   const [clubsCount, setClubsCount] = useState(0);
   const [classesCount, setClassesCount] = useState(0);
   const [usersCount, setUsersCount] = useState(0);
+  const [bookingsCount, setBookingsCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -82,6 +84,7 @@ export default function ClubsSuperAdmin() {
     getGymsCount(setLoading, setClubsCount);
     getClassesCount(setLoading, setClassesCount);
     getUsersCount(setLoading, setUsersCount);
+    getBookingsCount(setLoading, setBookingsCount);
   }, [isAuthenticated]);
 
   return (
@@ -161,7 +164,7 @@ export default function ClubsSuperAdmin() {
               <Grid item xs={6}>
                 <Container className={classes.countCard}>
                   <Typography variant='h4' gutterBottom className={classes.countCardTitle}>
-                    Total Classes
+                    Total Bookings
                   </Typography>
                   <Box className={classes.countNumberBox}>
                     <Typography
@@ -169,10 +172,10 @@ export default function ClubsSuperAdmin() {
                       gutterBottom
                       className={classes.countNumber}
                       style={{
-                        fontSize: classesCount > 99999 ? '1.75rem' : '3rem',
+                        fontSize: bookingsCount > 99999 ? '1.75rem' : '3rem',
                       }}
                     >
-                      {classesCount}
+                      {bookingsCount}
                     </Typography>
                   </Box>
                 </Container>
