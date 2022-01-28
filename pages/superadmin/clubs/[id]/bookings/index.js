@@ -7,7 +7,7 @@ import { useStyles } from '../../../../../styles/bookings/Index.style';
 import { TopBar } from '../../../../../src/components/navigation/TopBar';
 import { MenuBar } from '../../../../../src/components/navigation/MenuBar';
 import { tableIcons } from '../../../../../src/components/table/MaterialTable';
-import { getBookingsByGymId } from '../../../../../src/utils/fetchApi/bookings';
+import { getBookingsByGymId, updateBooking } from '../../../../../src/utils/fetchApi/bookings';
 import jwtDecode from '../../../../../src/utils/jwtDecode/jwtDecode';
 
 export default function BookingsSuperAdmin() {
@@ -32,6 +32,17 @@ export default function BookingsSuperAdmin() {
     if (gymId)
       getBookingsByGymId(setLoading, setBookings, gymId, { limit: 0 });
   }, [gymId]);
+
+  const handleUpdateBooking = async (data, bookingId) => {
+    setAlertBookings({
+      status: false,
+      message: '',
+    });
+    await updateBooking(setAlertBookings, data, bookingId);
+    // getBookingsByGymId(setLoading, setBookings, gymId, { limit: 0 });
+    // router.push(`/superadmin/clubs/${gymId}/bookings`);
+    window.location.reload();
+  };
 
   return (
     isAuthenticated && (
@@ -64,9 +75,33 @@ export default function BookingsSuperAdmin() {
                   },
                   { title: 'User Id', field: 'user_id', width: '10%' },
                   { title: 'Schedule', field: 'class.schedules[0].time_schedule' },
+                  { title: 'Status', field: 'status' },
                 ]}
                 data={bookings}
                 actions={[
+                  rowData => ({
+                    icon: tableIcons.Check,
+                    tooltip: 'Confirm Booking',
+                    onClick: (event, rowData) => {
+                      handleUpdateBooking({
+                        ...rowData,
+                        status: 'Confirmed',
+                      }, rowData.id);
+                    },
+                    disabled: rowData.status === 'Confirmed' || rowData.status === 'Rejected',
+                  }),
+                  rowData => ({
+                    icon: tableIcons.Clear,
+                    tooltip: 'Reject Booking',
+                    onClick: (event, rowData) => {
+                      handleUpdateBooking({
+                        ...rowData,
+                        status: 'Rejected',
+                      }, rowData.id);
+                    },
+                    disabled: rowData.status === 'Confirmed' || rowData.status === 'Rejected',
+                  }),
+                  // } : null,
                   // {
                   //   icon: tableIcons.ListAlt,
                   //   tooltip: 'View Classes',

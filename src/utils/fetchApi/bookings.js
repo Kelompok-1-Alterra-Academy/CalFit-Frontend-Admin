@@ -42,3 +42,21 @@ export const createBooking = async (setAlert, data, classId) => {
       });
     });
 };
+
+export const updateBooking = async (setAlert, data, bookingId) => {
+  return baseApi
+    .put(`/booking/${bookingId}`, data)
+    .then((res) => {
+      setAlert({
+        status: true,
+        message: res.data.message,
+      });
+      return res;
+    })
+    .catch((err) => {
+      setAlert({
+        status: true,
+        message: err,
+      });
+    });
+};
