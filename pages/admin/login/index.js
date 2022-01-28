@@ -45,7 +45,7 @@ export default function AdminLogin() {
     }
     const { Email: email } = jwtDecode();
     if (email) {
-      router.push('/superadmin/dashboard');
+      router.push('/admin/dashboard');
     }
   }, []);
 
