@@ -11,6 +11,7 @@ import { getGymsCount } from '../../../src/utils/fetchApi/clubs';
 import { getClassesCount } from '../../../src/utils/fetchApi/classes';
 import { getUsersCount } from '../../../src/utils/fetchApi/users';
 import { getBookingsCount } from '../../../src/utils/fetchApi/bookings';
+import { countAllAdmins } from '../../../src/utils/fetchApi/admins';
 import jwtDecode from '../../../src/utils/jwtDecode/jwtDecode';
 
 const data = [
@@ -65,6 +66,7 @@ export default function ClubsSuperAdmin() {
   const [classesCount, setClassesCount] = useState(0);
   const [usersCount, setUsersCount] = useState(0);
   const [bookingsCount, setBookingsCount] = useState(0);
+  const [adminsCount, setAdminsCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -85,6 +87,7 @@ export default function ClubsSuperAdmin() {
     getClassesCount(setLoading, setClassesCount);
     getUsersCount(setLoading, setUsersCount);
     getBookingsCount(setLoading, setBookingsCount);
+    countAllAdmins(setLoading, setAdminsCount)
   }, [isAuthenticated]);
 
   return (
@@ -211,6 +214,25 @@ export default function ClubsSuperAdmin() {
                 </ResponsiveContainer>
               </Container>
             </Grid>
+            <Grid item xs={6}>
+                <Container className={classes.countCard}>
+                  <Typography variant='h4' gutterBottom className={classes.countCardTitle}>
+                    Total Admins
+                  </Typography>
+                  <Box className={classes.countNumberBox}>
+                    <Typography
+                      variant='h4'
+                      gutterBottom
+                      className={classes.countNumber}
+                      style={{
+                        fontSize: adminsCount > 99999 ? '1.75rem' : '3rem',
+                      }}
+                    >
+                      {adminsCount}
+                    </Typography>
+                  </Box>
+                </Container>
+              </Grid>
           </Grid>
         </main>
       </div>

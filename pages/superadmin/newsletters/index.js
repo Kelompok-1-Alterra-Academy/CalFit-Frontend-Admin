@@ -10,7 +10,7 @@ import { tableIcons } from '../../../src/components/table/MaterialTable';
 import { getAllNewsletters, deleteNewsletter } from '../../../src/utils/fetchApi/newsletters';
 import jwtDecode from '../../../src/utils/jwtDecode/jwtDecode';
 
-export default function NewslettersAdmin() {
+export default function NewslettersSuperAdmin() {
   const styles = useStyles();
   const router = useRouter();
   const [newslettersList, setNewslettersList] = useState([]);
@@ -21,8 +21,8 @@ export default function NewslettersAdmin() {
   const [loading, setLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   useEffect(() => {
-    const { OperationalAdmin: opadmin } = jwtDecode();
-    if (!opadmin) router.push('/admin/login');
+    const { Superadmin: superadmin } = jwtDecode();
+    if (!superadmin) router.push('/superadmin/login');
     else {
       setIsAuthenticated(true);
       getAllNewsletters(setLoading, setNewslettersList, { limit: 1000, page: 1 });

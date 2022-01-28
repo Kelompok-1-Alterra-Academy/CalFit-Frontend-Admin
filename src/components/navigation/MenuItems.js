@@ -23,11 +23,11 @@ export const menuItems = [
     label: 'Classes',
     href: '/superadmin/classes',
   },
-  // {
-  //   icon: NewspaperIcon,
-  //   label: 'Newsletters',
-  //   href: '/superadmin/newsletters',
-  // },
+  {
+     icon: NewspaperIcon,
+     label: 'Newsletters',
+     href: '/superadmin/newsletters',
+  },
   // {
   //   icon: OndemandVideoIcon,
   //   label: 'Videos',

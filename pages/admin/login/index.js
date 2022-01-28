@@ -8,11 +8,11 @@ import { VisibilityOff, Visibility, Google } from '@mui/icons-material';
 import { setCookie } from 'nookies';
 // import { CustomAlert } from "../alert/Alert";
 import { useStyles } from '../../../styles/login/Index.style';
-import { superadminLogin } from '../../../src/utils/fetchApi/auth';
+import { opadminLogin } from '../../../src/utils/fetchApi/auth';
 import { passwordValidation } from '../../../src/utils/validation/validation';
 import jwtDecode from '../../../src/utils/jwtDecode/jwtDecode';
 
-export default function Login() {
+export default function AdminLogin() {
   const classes = useStyles();
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
@@ -45,7 +45,7 @@ export default function Login() {
     }
     const { Email: email } = jwtDecode();
     if (email) {
-      router.push('/superadmin/dashboard');
+      router.push('/admin/dashboard');
     }
   }, []);
 
@@ -77,12 +77,12 @@ export default function Login() {
         message: 'please fill all fields',
       });
     } else {
-      const res = await superadminLogin(setLoading, setAlert, data);
+      const res = await opadminLogin(setLoading, setAlert, data);
       console.log(res);
       setCookie(null, 'token', res.data.data.token);
       switch (res.status) {
         case 200:
-          router.push('/superadmin/dashboard');
+          router.push('/admin/dashboard');
           break;
         default:
           break;
@@ -131,8 +131,8 @@ export default function Login() {
             Login
           </Button>
         </Box>
-        <Link href={`/admin/login`}>
-            <a>Login as Admin</a>
+        <Link href={`/superadmin/login`}>
+            <a>Login as Super Admin</a>
         </Link>
       </div>
     </div>
