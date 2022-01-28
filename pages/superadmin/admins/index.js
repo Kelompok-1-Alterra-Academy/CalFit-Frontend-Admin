@@ -7,10 +7,22 @@ import { useStyles } from '../../../styles/classes/Index.style';
 import { TopBar } from '../../../src/components/navigation/TopBar';
 import { MenuBar } from '../../../src/components/navigation/MenuBar';
 import { tableIcons } from '../../../src/components/table/MaterialTable';
+import { getAllAdmins, countAllAdmins } from '../../../src/utils/fetchApi/admins';
 
 export default function AdminsSuperAdmin() {
   const styles = useStyles();
   const router = useRouter();
+  const [adminsList, setAdminsList] = useState([]);
+  const [alertAdmins, setAdmins] = useState({
+    status: false,
+    message: '',
+  })
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    getAllAdmins(setLoading, setAdminList, { limit: 1000, page: 1 });
+  }, []);
+
   return (
     <div className={styles.root}>
       <Head>

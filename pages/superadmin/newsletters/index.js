@@ -24,7 +24,7 @@ export default function NewslettersSuperAdmin() {
   }, []);
 
   const handleDelete = async (id) => {
-    const res = await deleteClass(setLoading, setAlertNewsletters, Id);
+    const res = await deleteNewsletter(setLoading, setAlertNewsletters, Id);
     console.log(res);
     if (res.status === 200) {
       setNewslettersList(newslettersList.filter((newsItem) => newsItem.id !== id));
@@ -62,7 +62,7 @@ export default function NewslettersSuperAdmin() {
                   { title: 'Content', field: 'content' },
                   { title: 'Operational Admin Id', field: 'operationalAdminId', width: '10%'},
                 ]}
-                data={classesList}
+                data={newslettersList}
                 actions={[
                   {
                     icon: tableIcons.Edit,
