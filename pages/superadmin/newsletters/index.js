@@ -8,6 +8,7 @@ import { TopBar } from '../../../src/components/navigation/TopBar';
 import { MenuBar } from '../../../src/components/navigation/MenuBar';
 import { tableIcons } from '../../../src/components/table/MaterialTable';
 import { getAllNewsletters, deleteNewsletter } from '../../../src/utils/fetchApi/newsletters';
+import jwtDecode from '../../../src/utils/jwtDecode/jwtDecode';
 
 export default function NewslettersSuperAdmin() {
   const styles = useStyles();
@@ -18,9 +19,14 @@ export default function NewslettersSuperAdmin() {
     message: '',
   })
   const [loading, setLoading] = useState(false);
-
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   useEffect(() => {
-    getAllNewsletters(setLoading, setNewslettersList, { limit: 1000, page: 1 });
+    const { Superadmin: superadmin } = jwtDecode();
+    if (!superadmin) router.push('/superadmin/login');
+    else {
+      setIsAuthenticated(true);
+      getAllNewsletters(setLoading, setNewslettersList, { limit: 1000, page: 1 });
+    }
   }, []);
 
   const handleDelete = async (id) => {

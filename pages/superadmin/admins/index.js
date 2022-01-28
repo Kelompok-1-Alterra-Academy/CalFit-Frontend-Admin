@@ -7,7 +7,8 @@ import { useStyles } from '../../../styles/classes/Index.style';
 import { TopBar } from '../../../src/components/navigation/TopBar';
 import { MenuBar } from '../../../src/components/navigation/MenuBar';
 import { tableIcons } from '../../../src/components/table/MaterialTable';
-import { getAllAdmins, countAllAdmins } from '../../../src/utils/fetchApi/admins';
+import { getAllAdmins} from '../../../src/utils/fetchApi/admins';
+import jwtDecode from '../../../src/utils/jwtDecode/jwtDecode';
 
 export default function AdminsSuperAdmin() {
   const styles = useStyles();
@@ -18,11 +19,15 @@ export default function AdminsSuperAdmin() {
     message: '',
   })
   const [loading, setLoading] = useState(false);
-
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   useEffect(() => {
-    getAllAdmins(setLoading, setAdminList, { limit: 1000, page: 1 });
+    const { Superadmin: superadmin } = jwtDecode();
+    if (!superadmin) router.push('/superadmin/login');
+    else {
+      setIsAuthenticated(true);
+      getAllAdmins(setLoading, setAdminList, { limit: 1000, page: 1 });
+    }
   }, []);
-
   return (
     <div className={styles.root}>
       <Head>
@@ -39,6 +44,46 @@ export default function AdminsSuperAdmin() {
             <MenuBar selected={'Admins'} />
           </Grid>
           <Grid item xs={9}>
+          <MaterialTable
+                className={styles.table}
+                title='Admins'
+                icons={tableIcons}
+                columns={[
+                  { title: 'Id', field: 'id' },
+                  { title: 'User Name', field: 'username' },
+                ]}
+                data={adminsList}
+                // actions={[
+                //   {
+                //     icon: tableIcons.Edit,
+                //     tooltip: 'Edit Class',
+                //     // onClick: (event, rowData) => router.push(`/superadmin/classes/edit/${rowData.id}`),
+                //     onClick: (event, rowData) =>
+                //       router.push(`/superadmin/clubs/${rowData.gymID}/classes/${rowData.id}/edit`),
+                //   },
+                //   (rowData) => ({
+                //     icon: tableIcons.Delete,
+                //     tooltip: 'Delete Class',
+                //     onClick: (event, rowData) => {
+                //       const isDelete = confirm(`You want to delete ${rowData.name}(id: ${rowData.id}) ?`);
+                //       if (isDelete) {
+                //         const success = handleDelete(rowData.gymID, rowData.id);
+                //         if (success) alert(`You deleted ${rowData.name}(id: ${rowData.id})`);
+                //         else alert(`Can't delete ${rowData.name}(id: ${rowData.id})`);
+                //       }
+                //     },
+                //   }),
+                //   // {
+                //   //   icon: tableIcons.Add,
+                //   //   tooltip: 'Add New Class',
+                //   //   isFreeAction: true,
+                //   //   onClick: (event) => router.push('/superadmin/classes/add'),
+                //   // },
+                // ]}
+                options={{
+                  actionsColumnIndex: -1,
+                }}
+              />
           </Grid>
         </Grid>
       </main>
