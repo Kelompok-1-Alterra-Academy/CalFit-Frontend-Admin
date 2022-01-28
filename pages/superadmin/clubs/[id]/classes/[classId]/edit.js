@@ -17,7 +17,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { useStyles } from '../../../../../../styles/clubs/[id]/classes/[classId]/Edit.style';
+import { useStyles } from '../../../../../../styles/clubs/[id]/classes/[classid]/Edit.style';
 import { TopBar } from '../../../../../../src/components/navigation/TopBar';
 import { MenuBar } from '../../../../../../src/components/navigation/MenuBar';
 import { urlValidation } from '../../../../../../src/utils/validation/validation';
