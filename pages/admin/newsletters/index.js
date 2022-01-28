@@ -22,7 +22,7 @@ export default function NewslettersAdmin() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   useEffect(() => {
     const { OperationalAdmin: opadmin } = jwtDecode();
-    if (!superadmin) router.push('/admin/login');
+    if (!opadmin) router.push('/admin/login');
     else {
       setIsAuthenticated(true);
       getAllNewsletters(setLoading, setNewslettersList, { limit: 1000, page: 1 });

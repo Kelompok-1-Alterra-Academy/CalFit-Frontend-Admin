@@ -7,10 +7,28 @@ import { useStyles } from '../../../styles/classes/Index.style';
 import { TopBar } from '../../../src/components/navigation/TopBar';
 import { MenuBar } from '../../../src/components/navigation/MenuBar';
 import { tableIcons } from '../../../src/components/table/MaterialTable';
+import { getAllClasses, deleteClass } from '../../../src/utils/fetchApi/classes';
+import jwtDecode from '../../../src/utils/jwtDecode/jwtDecode';
+
 
 export default function ClassesAdmin() {
   const styles = useStyles();
   const router = useRouter();
+  const [classesList, setClassesList] = useState([]);
+  const [alertClasses, setAlertClasses] = useState({
+    status: false,
+    message: '',
+  });
+  const [loading, setLoading] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  useEffect(() => {
+    const { OperationalAdmin: opadmin } = jwtDecode();
+    if (!opadmin) router.push('/admin/login');
+    else {
+      setIsAuthenticated(true);
+      getAllClasses(setLoading, setClassesList, { limit: 1000, page: 1 });
+    }
+  }, []);
   return (
     <div className={styles.root}>
       <Head>
