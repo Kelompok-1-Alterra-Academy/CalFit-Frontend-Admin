@@ -76,6 +76,29 @@ export async function superadminUpdatePassword(setLoadingState, setAlert, { user
   });
 }
 
+export async function opadminLogin(setLoadingState, setAlert, { username, password }) {
+  setLoadingState(true);
+  return baseApi
+    .post(`/admin/login`, {
+      username,
+      password,
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      console.log(err);
+      setAlert({
+        status: true,
+        message: err?.data?.data?.message,
+      });
+      return err?.data?.data;
+    })
+    .finally(() => {
+      setLoadingState(false);
+    });
+}
+
 export async function opadminUpdatePassword(setLoadingState, setAlert, { username, password, changedPassword }) {
   console.log('parseCookies', parseCookies()['token']);
   setLoadingState(true);
