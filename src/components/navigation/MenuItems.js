@@ -38,11 +38,11 @@ export const menuItems = [
   //   label: 'Bookings',
   //   href: '/superadmin/bookings',
   // },
-  {
-    icon: SupervisorAccountIcon,
-    label: 'Admins',
-    href: '/superadmin/admins',
-  },
+  // {
+  //   icon: SupervisorAccountIcon,
+  //   label: 'Admins',
+  //   href: '/superadmin/admins',
+  // },
   {
     icon: ManageAccountsIcon,
     label: 'Account',
